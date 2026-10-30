@@ -1,0 +1,26 @@
+<svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="64" height="64" rx="14" fill="#1a1a22"/>
+  <rect x="0.75" y="0.75" width="62.5" height="62.5" rx="13.25" fill="none" stroke="#D4AF37" stroke-width="1" opacity="0.5"/>
+  <ellipse cx="32" cy="12" rx="4.5" ry="5" fill="#D4AF37"/>
+  <rect x="30.5" y="16" width="3" height="3" rx="1" fill="#D4AF37"/>
+  <path d="M24 20 Q28 18 32 19 Q36 18 40 20 L41 23 L23 23 Z" fill="#D4AF37"/>
+  <path d="M23 23 L41 23 L39 33 Q35 35 32 35 Q29 35 25 33 Z" fill="#D4AF37"/>
+  <path d="M23 24 L17 27 L14 31 L12 35 L14 36 L17 33 L19 30 L23 28 Z" fill="#D4AF37"/>
+  <path d="M41 24 L45 27 L46 32 L44 34 L42 32 L42 28 Z" fill="#D4AF37"/>
+  <ellipse cx="11" cy="36" rx="5" ry="6" fill="#E31B23"/>
+  <path d="M8 33 Q11 31.5 14 33" fill="none" stroke="#a88628" stroke-width="1"/>
+  <ellipse cx="13.5" cy="33" rx="1.5" ry="2" fill="#b8141a"/>
+  <path d="M8 36 Q11 38 14 36" fill="none" stroke="#8a0e14" stroke-width="0.6"/>
+  <ellipse cx="46" cy="34" rx="5" ry="6" fill="#E31B23"/>
+  <path d="M43 31 Q46 29.5 49 31" fill="none" stroke="#a88628" stroke-width="1"/>
+  <ellipse cx="48.5" cy="31" rx="1.5" ry="2" fill="#b8141a"/>
+  <path d="M43 34 Q46 36 49 34" fill="none" stroke="#8a0e14" stroke-width="0.6"/>
+  <path d="M27 35 L23 43 L22 50 L26 50 L28 42 L29 36 Z" fill="#D4AF37"/>
+  <path d="M35 35 L39 43 L40 50 L36 50 L34 42 L33 36 Z" fill="#D4AF37"/>
+  <ellipse cx="24" cy="51" rx="3" ry="1.5" fill="#a88628"/>
+  <ellipse cx="38" cy="51" rx="3" ry="1.5" fill="#a88628"/>
+  <rect x="26" y="34" width="12" height="2" rx="0.5" fill="#D4AF37" opacity="0.8"/>
+  <rect x="30" y="34" width="4" height="2" rx="0.5" fill="#1a1a22"/>
+  <text x="32" y="58" textAnchor="middle" fill="#D4AF37" font-size="5" font-weight="700" letter-spacing="0.5" font-family="Oswald, sans-serif">LEMAMAR</text>
+  <text x="32" y="63" textAnchor="middle" fill="#D4AF37" font-size="3" font-weight="600" letter-spacing="0.8" font-family="Oswald, sans-serif" opacity="0.7">BOXING CENTER</text>
+</svg>
