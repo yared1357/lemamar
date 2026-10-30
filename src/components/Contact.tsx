@@ -1,12 +1,4 @@
-import {
-  ArrowUpRight,
-  Facebook,
-  MapPin,
-  MessageCircle,
-  Music2,
-  Navigation,
-  Phone,
-} from 'lucide-react';
+import { Facebook, MapPin, MessageCircle, Music2, Navigation, Phone } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { siteConfig } from '@/config/site';
 
@@ -14,7 +6,7 @@ export default function Contact() {
   return (
     <section
       id="contact"
-      className="relative isolate overflow-hidden bg-gradient-to-b from-jaguar-mist to-jaguar-cream px-6 py-24 pt-28 lg:px-12 lg:py-32"
+      className="relative isolate overflow-hidden bg-gradient-to-b from-jaguar-mist to-jaguar-cream px-6 py-20 pt-24 lg:px-12 lg:py-28"
     >
       <div
         aria-hidden="true"
@@ -25,20 +17,10 @@ export default function Contact() {
         className="absolute -bottom-40 -left-32 -z-10 h-96 w-96 rounded-full bg-jaguar-red/5 blur-3xl"
       />
       <div className="max-w-7xl mx-auto">
-        <div className="mb-12 text-center lg:mb-16">
-          <div className="mb-4 flex items-center justify-center gap-3">
-            <div className="h-px w-10 bg-jaguar-gold" />
-            <span className="text-xs font-semibold tracking-[0.3em] text-jaguar-gold-dark font-display uppercase">
-              Your next round
-            </span>
-            <div className="h-px w-10 bg-jaguar-gold" />
-          </div>
+        <div className="mb-10 text-center lg:mb-14">
           <h2 className="font-display text-4xl font-bold uppercase leading-tight text-jaguar-ink md:text-5xl lg:text-6xl">
             Get in <span className="text-gradient-red">touch</span>
           </h2>
-          <p className="mx-auto mt-4 max-w-2xl text-sm text-jaguar-slate md:text-base">
-            Every champion starts with a first conversation. Let’s get yours started.
-          </p>
         </div>
 
         <div className="mx-auto grid max-w-6xl gap-6 lg:grid-cols-[1.05fr_0.95fr] lg:gap-8">
@@ -47,7 +29,7 @@ export default function Contact() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: '-50px' }}
             transition={{ duration: 0.55 }}
-            className="relative flex min-h-[440px] flex-col overflow-hidden rounded-[2rem] border border-white/10 bg-[radial-gradient(ellipse_at_top_right,_rgba(212,175,55,0.22),_transparent_44%),linear-gradient(145deg,#191920_0%,#252530_60%,#17171e_100%)] p-7 text-white shadow-2xl shadow-black/15 sm:p-10 lg:p-12"
+            className="relative flex min-h-[360px] flex-col overflow-hidden rounded-[2rem] border border-white/10 bg-[radial-gradient(ellipse_at_top_right,_rgba(212,175,55,0.22),_transparent_44%),linear-gradient(145deg,#191920_0%,#252530_60%,#17171e_100%)] p-7 text-white shadow-2xl shadow-black/15 sm:min-h-[390px] sm:p-10 lg:p-12"
           >
             <div
               aria-hidden="true"
@@ -57,20 +39,14 @@ export default function Contact() {
               <div className="absolute inset-12 rounded-full border border-white/5" />
             </div>
             <div className="relative z-10 flex flex-1 flex-col">
-              <span className="inline-flex w-fit items-center gap-2 rounded-full border border-jaguar-gold/30 bg-jaguar-gold/10 px-3 py-1.5 font-display text-[10px] font-semibold uppercase tracking-[0.2em] text-jaguar-gold-light">
-                <span className="h-1.5 w-1.5 rounded-full bg-jaguar-gold shadow-[0_0_10px_rgba(212,175,55,0.9)]" />
-                Let’s talk boxing
-              </span>
-              <h3 className="mt-7 max-w-lg font-display text-3xl font-bold uppercase leading-[1.08] sm:text-4xl lg:text-5xl">
-                Make your
-                <br />
-                <span className="text-gradient-gold">next move.</span>
+              <h3 className="max-w-lg font-display text-3xl font-bold uppercase leading-[1.08] sm:text-4xl lg:text-5xl">
+                Ready to <span className="text-gradient-gold">train?</span>
               </h3>
-              <p className="mt-4 max-w-md text-sm leading-7 text-white/65 sm:text-base">
-                Ask about training, find the right program, or simply come say hello. We’re ready when you are.
+              <p className="mt-3 max-w-md text-sm leading-6 text-white/65 sm:text-base">
+                Call or message us to get started.
               </p>
 
-              <div className="mt-8 flex items-center gap-3">
+              <div className="mt-7 flex items-center gap-3">
                 <a
                   href={siteConfig.telUrl}
                   aria-label="Call the gym"
@@ -90,6 +66,16 @@ export default function Contact() {
                 >
                   <MessageCircle size={20} />
                 </a>
+                <a
+                  href={siteConfig.social.tiktok.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="Visit TikTok"
+                  title="TikTok"
+                  className="flex h-11 w-11 items-center justify-center rounded-full border border-jaguar-gold/50 bg-white/5 text-jaguar-gold-light transition-transform duration-200 hover:scale-110 hover:bg-jaguar-gold/15"
+                >
+                  <Music2 size={20} />
+                </a>
                 <button
                   type="button"
                   disabled
@@ -101,33 +87,16 @@ export default function Contact() {
                 </button>
               </div>
 
-              <div className="mt-auto grid grid-cols-1 gap-4 border-t border-white/10 pt-6 sm:grid-cols-2 sm:items-center">
+              <div className="mt-auto border-t border-white/10 pt-5">
                 <a
                   href={siteConfig.telUrl}
                   className="group inline-flex min-w-0 items-center gap-3"
                   dir="ltr"
                 >
-                  <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-jaguar-gold/30 bg-jaguar-gold/10 text-jaguar-gold-light transition-colors group-hover:border-jaguar-gold/60">
-                    <Phone size={16} />
+                  <span className="text-xs font-semibold uppercase tracking-[0.16em] text-white/45">Call us</span>
+                  <span className="text-sm font-semibold text-white/90 transition-colors group-hover:text-jaguar-gold-light">
+                    {siteConfig.phoneIntl}
                   </span>
-                  <span>
-                    <span className="block text-[10px] font-semibold uppercase tracking-[0.18em] text-white/45">
-                      Call us directly
-                    </span>
-                    <span className="mt-0.5 block text-sm font-semibold text-white/90 transition-colors group-hover:text-jaguar-gold-light">
-                      {siteConfig.phoneIntl}
-                    </span>
-                  </span>
-                </a>
-                <a
-                  href={siteConfig.social.tiktok.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex w-fit items-center gap-2 text-xs font-medium text-white/65 transition-colors hover:text-jaguar-gold-light sm:justify-self-end"
-                >
-                  <Music2 size={15} />
-                  Follow {siteConfig.social.tiktok.username}
-                  <ArrowUpRight size={13} />
                 </a>
               </div>
             </div>
@@ -161,7 +130,7 @@ export default function Contact() {
                 </span>
                 <div className="min-w-0">
                   <p className="font-display text-xs font-semibold uppercase tracking-[0.2em] text-jaguar-gold-dark">
-                    Come train with us
+                    Visit us
                   </p>
                   <h3 className="mt-1 font-display text-xl font-bold uppercase text-jaguar-ink sm:text-2xl">
                     {siteConfig.locationLabel}
@@ -174,9 +143,6 @@ export default function Contact() {
                 style={{ fontFamily: 'Noto Sans Ethiopic, system-ui, sans-serif' }}
               >
                 {siteConfig.locationAmharic}
-              </p>
-              <p className="mt-3 text-xs leading-relaxed text-jaguar-ash">
-                Use the map above to view the location and plan your visit.
               </p>
             </div>
           </motion.div>
