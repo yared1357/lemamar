@@ -1,12 +1,7 @@
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay, Pagination, Navigation, EffectFade } from 'swiper/modules';
 import { motion } from 'framer-motion';
-import {
-  ArrowRight,
-  ChevronLeft,
-  ChevronRight as ChevR,
-  MessageCircle,
-} from 'lucide-react';
+import { ChevronLeft, ChevronRight as ChevR } from 'lucide-react';
 import type { Swiper as SwiperType } from 'swiper';
 import { useRef } from 'react';
 import 'swiper/css';
@@ -88,27 +83,6 @@ export default function Hero() {
             Unleash Your <span className="text-gradient-red">Inner Champion</span>
           </motion.h1>
 
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.8 }}
-            className="mx-auto mt-7 flex w-full max-w-[31rem] flex-row gap-2 sm:mt-8 sm:gap-3"
-          >
-            <a
-              href={siteConfig.telUrl}
-              className="inline-flex min-h-12 min-w-0 flex-1 items-center justify-center gap-1.5 rounded-full border border-jaguar-red-light/70 bg-gradient-to-r from-jaguar-red to-[#ff3535] px-2.5 py-3 text-[10px] font-bold leading-tight text-white shadow-[0_8px_24px_rgba(227,27,35,0.35)] transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_12px_30px_rgba(227,27,35,0.45)] sm:gap-2 sm:px-5 sm:text-sm"
-            >
-              <MessageCircle size={15} className="shrink-0 sm:h-[18px] sm:w-[18px]" />
-              <span className="whitespace-nowrap">Talk to a Coach</span>
-            </a>
-            <button
-              onClick={() => document.querySelector('#training')?.scrollIntoView({ behavior: 'smooth' })}
-              className="inline-flex min-h-12 min-w-0 flex-1 items-center justify-center gap-1.5 rounded-full border border-white/40 bg-white/10 px-2.5 py-3 text-[10px] font-bold leading-tight text-white shadow-lg backdrop-blur-md transition-all duration-200 hover:-translate-y-0.5 hover:border-jaguar-gold/80 hover:bg-white/20 sm:gap-2 sm:px-5 sm:text-sm"
-            >
-              <span className="whitespace-nowrap">Explore Training</span>
-              <ArrowRight size={15} className="shrink-0 sm:h-[18px] sm:w-[18px]" />
-            </button>
-          </motion.div>
         </div>
       </div>
     </section>

@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { MessageCircle, Music2, Phone } from 'lucide-react';
 import Logo from '@/components/Logo';
 import { siteConfig } from '@/config/site';
 
@@ -47,12 +48,37 @@ export default function Navbar() {
             </li>
           ))}
         </ul>
-        <a
-          href={siteConfig.telUrl}
-          className="inline-flex items-center gap-2 rounded-full bg-jaguar-red px-5 py-2.5 text-sm font-bold text-white hover:bg-jaguar-red-dark transition-colors duration-200 shadow-lg shadow-jaguar-red/20"
-        >
-          Call Now
-        </a>
+        <div className="flex items-center gap-3">
+          <a
+            href={siteConfig.telUrl}
+            aria-label="Call the gym"
+            title="Call the gym"
+            className="relative flex h-11 w-11 items-center justify-center rounded-full bg-jaguar-red shadow-lg shadow-jaguar-red/30 transition-transform duration-200 hover:scale-110"
+          >
+            <span className="absolute inset-0 rounded-full bg-jaguar-red animate-pulse-ring" />
+            <Phone size={21} className="relative z-10 text-white" />
+          </a>
+          <a
+            href={siteConfig.whatsappUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Chat on WhatsApp"
+            title="WhatsApp"
+            className="flex h-11 w-11 items-center justify-center rounded-full border border-jaguar-gold/50 bg-white/5 text-jaguar-gold-light transition-transform duration-200 hover:scale-110 hover:bg-jaguar-gold/15"
+          >
+            <MessageCircle size={21} />
+          </a>
+          <a
+            href={siteConfig.social.tiktok.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Visit TikTok"
+            title="TikTok"
+            className="flex h-11 w-11 items-center justify-center rounded-full border border-jaguar-gold/40 bg-white/5 text-white transition-colors duration-200 hover:border-jaguar-gold hover:bg-white/10"
+          >
+            <Music2 size={21} />
+          </a>
+        </div>
       </nav>
     </header>
   );
