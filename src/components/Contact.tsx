@@ -1,5 +1,6 @@
 import {
   ArrowUpRight,
+  Facebook,
   MapPin,
   MessageCircle,
   Music2,
@@ -69,28 +70,35 @@ export default function Contact() {
                 Ask about training, find the right program, or simply come say hello. We’re ready when you are.
               </p>
 
-              <div className="mt-8 grid grid-cols-2 gap-3">
+              <div className="mt-8 flex items-center gap-3">
                 <a
                   href={siteConfig.telUrl}
-                  className="inline-flex min-h-14 min-w-0 items-center justify-center gap-2 rounded-2xl border border-jaguar-red/45 bg-jaguar-red/10 px-2.5 py-3 text-xs font-bold text-white transition-all hover:-translate-y-0.5 hover:border-jaguar-red/70 hover:bg-jaguar-red/20 sm:gap-3 sm:px-4 sm:text-sm"
+                  aria-label="Call the gym"
+                  title="Call the gym"
+                  className="relative flex h-11 w-11 items-center justify-center rounded-full bg-jaguar-red text-white shadow-lg shadow-jaguar-red/30 transition-transform duration-200 hover:scale-110"
                 >
-                  <span className="relative flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-jaguar-red shadow-md shadow-jaguar-red/30">
-                    <span className="absolute inset-0 rounded-full bg-jaguar-red animate-pulse-ring" />
-                    <Phone size={17} className="relative z-10 text-white" />
-                  </span>
-                  <span className="whitespace-nowrap">Call the gym</span>
+                  <span className="absolute inset-0 rounded-full bg-jaguar-red animate-pulse-ring" />
+                  <Phone size={20} className="relative z-10" />
                 </a>
                 <a
                   href={siteConfig.whatsappUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex min-h-14 min-w-0 items-center justify-center gap-2 rounded-2xl border border-jaguar-gold/35 bg-white/[0.04] px-2.5 py-3 text-xs font-bold text-white transition-all hover:-translate-y-0.5 hover:border-jaguar-gold/65 hover:bg-jaguar-gold/10 sm:gap-3 sm:px-4 sm:text-sm"
+                  aria-label="Chat on WhatsApp"
+                  title="WhatsApp"
+                  className="flex h-11 w-11 items-center justify-center rounded-full border border-jaguar-gold/50 bg-white/5 text-jaguar-gold-light transition-transform duration-200 hover:scale-110 hover:bg-jaguar-gold/15"
                 >
-                  <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-jaguar-gold/50 bg-white/5 text-jaguar-gold-light">
-                    <MessageCircle size={17} />
-                  </span>
-                  <span className="whitespace-nowrap">WhatsApp us</span>
+                  <MessageCircle size={20} />
                 </a>
+                <button
+                  type="button"
+                  disabled
+                  aria-label="Facebook page not configured"
+                  title="Facebook page not configured"
+                  className="flex h-11 w-11 cursor-not-allowed items-center justify-center rounded-full border border-jaguar-gold/30 bg-white/5 text-jaguar-gold-light/50"
+                >
+                  <Facebook size={20} />
+                </button>
               </div>
 
               <div className="mt-auto grid grid-cols-1 gap-4 border-t border-white/10 pt-6 sm:grid-cols-2 sm:items-center">

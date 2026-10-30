@@ -1,4 +1,4 @@
-import { ArrowUpRight, MapPin, MessageCircle, Music2, Phone } from 'lucide-react';
+import { ArrowUpRight, Facebook, MapPin, MessageCircle, Music2, Phone } from 'lucide-react';
 import Logo from '@/components/Logo';
 import { siteConfig } from '@/config/site';
 
@@ -67,6 +67,15 @@ export default function Footer() {
               >
                 <MessageCircle size={18} />
               </a>
+              <button
+                type="button"
+                disabled
+                aria-label="Facebook page not configured"
+                title="Facebook page not configured"
+                className="flex h-10 w-10 cursor-not-allowed items-center justify-center rounded-full border border-white/10 bg-white/5 text-neutral-500"
+              >
+                <Facebook size={18} />
+              </button>
             </div>
           </div>
 
