@@ -69,32 +69,37 @@ export default function Contact() {
                 Ask about training, find the right program, or simply come say hello. We’re ready when you are.
               </p>
 
-              <div className="mt-8 flex flex-row gap-3">
+              <div className="mt-8 grid grid-cols-2 gap-3">
                 <a
                   href={siteConfig.telUrl}
-                  className="inline-flex min-h-12 min-w-0 flex-1 items-center justify-center gap-2 rounded-full bg-jaguar-red px-3 py-3 text-xs font-bold text-white shadow-lg shadow-jaguar-red/25 transition-all hover:-translate-y-0.5 hover:bg-jaguar-red-dark hover:shadow-jaguar-red/40 sm:px-6 sm:text-sm"
+                  className="inline-flex min-h-14 min-w-0 items-center justify-center gap-2 rounded-2xl border border-jaguar-red/45 bg-jaguar-red/10 px-2.5 py-3 text-xs font-bold text-white transition-all hover:-translate-y-0.5 hover:border-jaguar-red/70 hover:bg-jaguar-red/20 sm:gap-3 sm:px-4 sm:text-sm"
                 >
-                  <Phone size={17} />
+                  <span className="relative flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-jaguar-red shadow-md shadow-jaguar-red/30">
+                    <span className="absolute inset-0 rounded-full bg-jaguar-red animate-pulse-ring" />
+                    <Phone size={17} className="relative z-10 text-white" />
+                  </span>
                   <span className="whitespace-nowrap">Call the gym</span>
                 </a>
                 <a
                   href={siteConfig.whatsappUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex min-h-12 min-w-0 flex-1 items-center justify-center gap-2 rounded-full border border-white/20 bg-white/[0.06] px-3 py-3 text-xs font-bold text-white transition-colors hover:border-green-400/50 hover:bg-green-400/10 hover:text-green-200 sm:px-6 sm:text-sm"
+                  className="inline-flex min-h-14 min-w-0 items-center justify-center gap-2 rounded-2xl border border-jaguar-gold/35 bg-white/[0.04] px-2.5 py-3 text-xs font-bold text-white transition-all hover:-translate-y-0.5 hover:border-jaguar-gold/65 hover:bg-jaguar-gold/10 sm:gap-3 sm:px-4 sm:text-sm"
                 >
-                  <MessageCircle size={17} />
+                  <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-jaguar-gold/50 bg-white/5 text-jaguar-gold-light">
+                    <MessageCircle size={17} />
+                  </span>
                   <span className="whitespace-nowrap">WhatsApp us</span>
                 </a>
               </div>
 
-              <div className="mt-auto border-t border-white/10 pt-6">
+              <div className="mt-auto grid grid-cols-1 gap-4 border-t border-white/10 pt-6 sm:grid-cols-2 sm:items-center">
                 <a
                   href={siteConfig.telUrl}
-                  className="group inline-flex items-center gap-3"
+                  className="group inline-flex min-w-0 items-center gap-3"
                   dir="ltr"
                 >
-                  <span className="flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/5 text-jaguar-gold-light transition-colors group-hover:border-jaguar-gold/40">
+                  <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-jaguar-gold/30 bg-jaguar-gold/10 text-jaguar-gold-light transition-colors group-hover:border-jaguar-gold/60">
                     <Phone size={16} />
                   </span>
                   <span>
@@ -110,7 +115,7 @@ export default function Contact() {
                   href={siteConfig.social.tiktok.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="mt-4 flex w-fit items-center gap-2 text-xs font-medium text-white/55 transition-colors hover:text-jaguar-gold-light"
+                  className="flex w-fit items-center gap-2 text-xs font-medium text-white/65 transition-colors hover:text-jaguar-gold-light sm:justify-self-end"
                 >
                   <Music2 size={15} />
                   Follow {siteConfig.social.tiktok.username}
