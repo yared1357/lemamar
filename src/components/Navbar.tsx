@@ -26,20 +26,20 @@ export default function Navbar() {
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 hidden lg:block ${
+      className={`fixed top-0 left-0 right-0 z-50 hidden bg-[radial-gradient(ellipse_at_top,_rgba(212,175,55,0.12),_transparent_45%),linear-gradient(135deg,#17171e_0%,#20202a_55%,#17171e_100%)] transition-all duration-300 lg:block ${
         scrolled
-          ? 'bg-jaguar-white/95 backdrop-blur-md py-3 shadow-lg shadow-black/5 border-b border-jaguar-line'
-          : 'bg-jaguar-cream/80 backdrop-blur-sm py-5'
+          ? 'border-b border-jaguar-gold/20 py-3 shadow-lg shadow-black/20'
+          : 'py-5'
       }`}
     >
       <nav className="max-w-7xl mx-auto px-8 flex items-center justify-between">
-        <Logo size={60} variant="light" />
+        <Logo size={60} variant="dark" />
         <ul className="flex items-center gap-8">
           {navItems.map((item) => (
             <li key={item.href}>
               <button
                 onClick={() => handleNavClick(item.href)}
-                className="text-sm font-semibold tracking-wide text-jaguar-slate hover:text-jaguar-red transition-colors duration-200 relative group"
+                className="text-sm font-semibold tracking-wide text-neutral-300 hover:text-white transition-colors duration-200 relative group"
               >
                 {item.label}
                 <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-jaguar-red transition-all duration-300 group-hover:w-full" />

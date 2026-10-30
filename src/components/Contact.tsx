@@ -128,29 +128,18 @@ export default function Contact() {
             transition={{ duration: 0.55, delay: 0.1 }}
             className="flex flex-col overflow-hidden rounded-[2rem] border border-jaguar-line bg-white shadow-xl shadow-jaguar-ink/5"
           >
-            <div className="relative flex min-h-52 flex-1 items-center justify-center overflow-hidden bg-[#e8e4d8] p-6">
-              <div
-                aria-hidden="true"
-                className="absolute inset-0 opacity-60 [background-image:linear-gradient(30deg,transparent_47%,rgba(255,255,255,0.9)_48%,rgba(255,255,255,0.9)_50%,transparent_51%),linear-gradient(150deg,transparent_47%,rgba(255,255,255,0.8)_48%,rgba(255,255,255,0.8)_50%,transparent_51%)] [background-size:74px_74px]"
+            <div className="relative h-64 min-h-64 overflow-hidden bg-jaguar-mist sm:h-72 lg:h-80">
+              <iframe
+                title="Map showing Mesfin Biru Boxing Training Center"
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d8186.355861129623!2d38.71031878927355!3d9.057240026499057!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x164b89df2ed31057%3A0xfa393971e66ef3f0!2zV2luZ2V0IEtpZGFuZW1laHJldHzhi4rhipXhjIzhibUg4Yqq4Yuz4YqQ4Yid4YiF4Yio4Ym1!5e0!3m2!1sen!2s!4v1793360941923!5m2!1sen!2s"
+                className="absolute inset-0 h-full w-full border-0"
+                allowFullScreen
+                loading="lazy"
+                referrerPolicy="strict-origin-when-cross-origin"
               />
-              <div
-                aria-hidden="true"
-                className="absolute -left-12 top-1/2 h-3 w-[120%] -rotate-[18deg] rounded-full border-y border-white/80 bg-[#d6ddc9]"
-              />
-              <div
-                aria-hidden="true"
-                className="absolute -right-12 top-1/3 h-2 w-[115%] rotate-[24deg] rounded-full border-y border-white/80 bg-[#d6ddc9]"
-              />
-              <div className="relative z-10 flex flex-col items-center text-center">
-                <span className="flex h-16 w-16 items-center justify-center rounded-full border-4 border-white bg-jaguar-red text-white shadow-xl shadow-jaguar-red/25">
-                  <MapPin size={27} fill="currentColor" />
-                </span>
-                <span className="mt-3 rounded-full border border-white/80 bg-white/90 px-4 py-2 text-xs font-bold uppercase tracking-[0.16em] text-jaguar-ink shadow-lg backdrop-blur">
-                  {siteConfig.locationLabel}
-                </span>
-              </div>
-              <span className="absolute bottom-4 right-4 rounded-full border border-white/70 bg-white/75 px-3 py-1 text-[10px] font-semibold uppercase tracking-wider text-jaguar-slate backdrop-blur">
-                Find your corner
+              <span className="pointer-events-none absolute left-4 top-4 inline-flex items-center gap-2 rounded-full border border-white/70 bg-white/95 px-3 py-2 text-[10px] font-bold uppercase tracking-[0.14em] text-jaguar-ink shadow-lg backdrop-blur">
+                <MapPin size={14} className="text-jaguar-red" />
+                {siteConfig.shortName} · {siteConfig.locationLabel}
               </span>
             </div>
             <div className="p-6 sm:p-8">
@@ -175,7 +164,7 @@ export default function Contact() {
                 {siteConfig.locationAmharic}
               </p>
               <p className="mt-3 text-xs leading-relaxed text-jaguar-ash">
-                Exact map directions will be added once the gym location is verified.
+                Use the map above to view the location and plan your visit.
               </p>
             </div>
           </motion.div>

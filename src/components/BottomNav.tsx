@@ -38,7 +38,7 @@ export default function BottomNav() {
   };
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 z-50 lg:hidden bg-jaguar-white/95 backdrop-blur-lg border-t border-jaguar-line safe-area-bottom">
+    <nav className="fixed bottom-0 left-0 right-0 z-50 lg:hidden border-t border-jaguar-gold/30 bg-gradient-to-r from-[#111111]/95 via-[#1a1a1a]/95 to-[#30251a]/95 shadow-[0_-12px_30px_rgba(0,0,0,0.22)] backdrop-blur-xl safe-area-bottom">
       <div className="flex items-center justify-around px-2 py-2">
         {navItems.map((item) => {
           const Icon = item.icon;
@@ -53,13 +53,13 @@ export default function BottomNav() {
               <Icon
                 size={22}
                 className={`transition-colors duration-200 ${
-                  isActive ? 'text-jaguar-red' : 'text-jaguar-ash'
+                  isActive ? 'text-jaguar-gold-light' : 'text-neutral-300'
                 }`}
                 strokeWidth={isActive ? 2.5 : 2}
               />
               <span
                 className={`text-[0.625rem] font-semibold tracking-wide transition-colors duration-200 ${
-                  isActive ? 'text-jaguar-red' : 'text-jaguar-ash'
+                  isActive ? 'text-jaguar-gold-light' : 'text-neutral-300'
                 }`}
               >
                 {item.label}
