@@ -69,23 +69,22 @@ export default function Contact() {
                 Ask about training, find the right program, or simply come say hello. We’re ready when you are.
               </p>
 
-              <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+              <div className="mt-8 flex flex-row gap-3">
                 <a
                   href={siteConfig.telUrl}
-                  className="inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-jaguar-red px-6 py-3 text-sm font-bold text-white shadow-lg shadow-jaguar-red/25 transition-all hover:-translate-y-0.5 hover:bg-jaguar-red-dark hover:shadow-jaguar-red/40"
+                  className="inline-flex min-h-12 min-w-0 flex-1 items-center justify-center gap-2 rounded-full bg-jaguar-red px-3 py-3 text-xs font-bold text-white shadow-lg shadow-jaguar-red/25 transition-all hover:-translate-y-0.5 hover:bg-jaguar-red-dark hover:shadow-jaguar-red/40 sm:px-6 sm:text-sm"
                 >
                   <Phone size={17} />
-                  Call the gym
-                  <ArrowUpRight size={16} />
+                  <span className="whitespace-nowrap">Call the gym</span>
                 </a>
                 <a
                   href={siteConfig.whatsappUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex min-h-12 items-center justify-center gap-2 rounded-full border border-white/20 bg-white/[0.06] px-6 py-3 text-sm font-bold text-white transition-colors hover:border-green-400/50 hover:bg-green-400/10 hover:text-green-200"
+                  className="inline-flex min-h-12 min-w-0 flex-1 items-center justify-center gap-2 rounded-full border border-white/20 bg-white/[0.06] px-3 py-3 text-xs font-bold text-white transition-colors hover:border-green-400/50 hover:bg-green-400/10 hover:text-green-200 sm:px-6 sm:text-sm"
                 >
                   <MessageCircle size={17} />
-                  WhatsApp us
+                  <span className="whitespace-nowrap">WhatsApp us</span>
                 </a>
               </div>
 

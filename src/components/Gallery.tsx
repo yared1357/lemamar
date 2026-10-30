@@ -1,6 +1,10 @@
 import { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { AnimatePresence, motion } from 'framer-motion';
 import { X, ChevronLeft, ChevronRight, ZoomIn } from 'lucide-react';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Autoplay, Pagination } from 'swiper/modules';
+import 'swiper/css';
+import 'swiper/css/pagination';
 import { galleryImages } from '@/config/images';
 
 export default function Gallery() {
@@ -40,41 +44,53 @@ export default function Gallery() {
           </p>
         </div>
 
-        {/* Masonry-style grid */}
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 lg:gap-4">
+        <Swiper
+          modules={[Autoplay, Pagination]}
+          spaceBetween={16}
+          slidesPerView={1.2}
+          breakpoints={{
+            640: { slidesPerView: 2.2, spaceBetween: 20 },
+            1024: { slidesPerView: 3.2, spaceBetween: 24 },
+            1280: { slidesPerView: 4, spaceBetween: 24 },
+          }}
+          loop
+          speed={700}
+          grabCursor
+          autoplay={{
+            delay: 4000,
+            disableOnInteraction: false,
+            pauseOnMouseEnter: true,
+          }}
+          pagination={{ clickable: true }}
+          className="!overflow-visible !pb-12"
+        >
           {galleryImages.map((img, idx) => (
-            <motion.button
-              key={idx}
-              initial={{ opacity: 0, scale: 0.95 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true, margin: '-30px' }}
-              transition={{ duration: 0.4, delay: (idx % 4) * 0.05 }}
-              onClick={() => openLightbox(idx)}
-              className={`group relative overflow-hidden rounded-xl cursor-pointer shadow-sm hover:shadow-lg transition-shadow duration-300 ${
-                idx % 5 === 0 ? 'col-span-2 row-span-2' : ''
-              }`}
-              aria-label={`View image: ${img.alt}`}
-            >
-              <img
-                src={img.image}
-                alt={img.alt}
-                className={`w-full object-cover transition-transform duration-500 group-hover:scale-110 ${
-                  idx % 5 === 0 ? 'h-full min-h-[200px] md:min-h-[280px]' : 'h-40 md:h-52 lg:h-56'
-                }`}
-                loading="lazy"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-jaguar-dark/70 via-transparent to-transparent opacity-40 group-hover:opacity-70 transition-opacity duration-300" />
-              <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                <div className="rounded-full bg-jaguar-red/80 p-3 backdrop-blur-sm">
-                  <ZoomIn size={20} className="text-white" />
+            <SwiperSlide key={idx}>
+              <button
+                type="button"
+                onClick={() => openLightbox(idx)}
+                className="group relative block h-64 w-full overflow-hidden rounded-xl text-left shadow-sm transition-shadow duration-300 hover:shadow-lg sm:h-72 lg:h-80"
+                aria-label={`View image: ${img.alt}`}
+              >
+                <img
+                  src={img.image}
+                  alt={img.alt}
+                  className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
+                  loading="lazy"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-jaguar-dark/70 via-transparent to-transparent opacity-40 transition-opacity duration-300 group-hover:opacity-70" />
+                <div className="absolute inset-0 flex items-center justify-center opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+                  <div className="rounded-full bg-jaguar-red/80 p-3 backdrop-blur-sm">
+                    <ZoomIn size={20} className="text-white" />
+                  </div>
                 </div>
-              </div>
-              <span className="absolute bottom-3 left-3 text-xs font-bold uppercase tracking-wider text-white">
-                {img.label}
-              </span>
-            </motion.button>
+                <span className="absolute bottom-3 left-3 text-xs font-bold uppercase tracking-wider text-white">
+                  {img.label}
+                </span>
+              </button>
+            </SwiperSlide>
           ))}
-        </div>
+        </Swiper>
       </div>
 
       {/* Lightbox */}
