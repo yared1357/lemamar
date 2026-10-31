@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { MessageCircle, Music2, Phone } from 'lucide-react';
+import { Facebook, MessageCircle, Music2, Phone } from 'lucide-react';
 import Logo from '@/components/Logo';
 import { siteConfig } from '@/config/site';
 
@@ -77,6 +77,14 @@ export default function Navbar() {
             className="flex h-11 w-11 items-center justify-center rounded-full border border-jaguar-gold/40 bg-white/5 text-white transition-colors duration-200 hover:border-jaguar-gold hover:bg-white/10"
           >
             <Music2 size={21} />
+          </a>
+          <a
+            href={siteConfig.social.facebook.url}
+            aria-label="Visit Facebook"
+            title="Facebook"
+            className="flex h-11 w-11 items-center justify-center rounded-full border border-jaguar-gold/40 bg-white/5 text-white transition-colors duration-200 hover:border-jaguar-gold hover:bg-white/10"
+          >
+            <Facebook size={21} />
           </a>
         </div>
       </nav>

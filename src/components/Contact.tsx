@@ -56,7 +56,7 @@ export default function Contact() {
                   href={siteConfig.telUrl}
                   aria-label="Call the gym"
                   title="Call the gym"
-                  className="relative flex h-11 w-11 items-center justify-center rounded-full bg-jaguar-red text-white shadow-lg shadow-jaguar-red/30 transition-transform duration-200 hover:scale-110"
+                  className="relative flex h-11 w-11 cursor-pointer items-center justify-center rounded-full bg-jaguar-red text-white shadow-lg shadow-jaguar-red/30 transition-transform duration-200 hover:scale-110"
                 >
                   <span className="absolute inset-0 rounded-full bg-jaguar-red animate-pulse-ring" />
                   <Phone size={20} className="relative z-10" />
@@ -67,7 +67,7 @@ export default function Contact() {
                   rel="noopener noreferrer"
                   aria-label="Chat on WhatsApp"
                   title="WhatsApp"
-                  className="flex h-11 w-11 items-center justify-center rounded-full border border-jaguar-gold/50 bg-white/5 text-jaguar-gold-light transition-transform duration-200 hover:scale-110 hover:bg-jaguar-gold/15"
+                  className="flex h-11 w-11 cursor-pointer items-center justify-center rounded-full border border-jaguar-gold/50 bg-white/5 text-jaguar-gold-light transition-all duration-200 hover:scale-110 hover:border-jaguar-gold hover:bg-white/10"
                 >
                   <MessageCircle size={20} />
                 </a>
@@ -77,28 +77,27 @@ export default function Contact() {
                   rel="noopener noreferrer"
                   aria-label="Visit TikTok"
                   title="TikTok"
-                  className="flex h-11 w-11 items-center justify-center rounded-full border border-jaguar-gold/50 bg-white/5 text-jaguar-gold-light transition-transform duration-200 hover:scale-110 hover:bg-jaguar-gold/15"
+                  className="flex h-11 w-11 cursor-pointer items-center justify-center rounded-full border border-jaguar-gold/40 bg-white/5 text-white transition-all duration-200 hover:scale-110 hover:border-jaguar-gold hover:bg-white/10"
                 >
                   <Music2 size={20} />
                 </a>
-                <button
-                  type="button"
-                  disabled
-                  aria-label="Facebook page not configured"
-                  title="Facebook page not configured"
-                  className="flex h-11 w-11 cursor-not-allowed items-center justify-center rounded-full border border-jaguar-gold/30 bg-white/5 text-jaguar-gold-light/50"
+                <a
+                  href={siteConfig.social.facebook.url}
+                  aria-label="Visit Facebook"
+                  title="Facebook"
+                  className="flex h-11 w-11 cursor-pointer items-center justify-center rounded-full border border-jaguar-gold/40 bg-white/5 text-white transition-all duration-200 hover:scale-110 hover:border-jaguar-gold hover:bg-white/10"
                 >
                   <Facebook size={20} />
-                </button>
+                </a>
               </div>
 
               <div className="mt-auto w-full border-t border-white/10 pt-5">
                 <a
                   href={siteConfig.telUrl}
-                  className="group inline-flex items-center justify-center gap-3"
+                  className="group inline-flex cursor-pointer items-center justify-center gap-3 transition-transform duration-200 hover:scale-105"
                   dir="ltr"
                 >
-                  <span className="text-xs font-semibold uppercase tracking-[0.16em] text-white/45">Call us</span>
+                  <span className="text-xs font-bold uppercase tracking-[0.16em] text-gradient-gold">Call us</span>
                   <span className="text-sm font-semibold text-white/90 transition-colors group-hover:text-jaguar-gold-light">
                     {siteConfig.phoneIntl}
                   </span>
@@ -123,29 +122,33 @@ export default function Contact() {
                 loading="lazy"
                 referrerPolicy="strict-origin-when-cross-origin"
               />
-              <span className="pointer-events-none absolute left-4 top-4 inline-flex items-center gap-2 rounded-full border border-white/70 bg-white/95 px-3 py-2 text-[10px] font-bold uppercase tracking-[0.14em] text-jaguar-ink shadow-lg backdrop-blur">
-                <MapPin size={14} className="text-jaguar-red" />
-                {siteConfig.shortName} · {siteConfig.locationLabel}
+              <span className="pointer-events-none absolute left-4 top-4 inline-flex items-center gap-2 rounded-full border border-white/60 bg-jaguar-dark/85 px-3 py-2 text-[10px] font-bold uppercase tracking-[0.16em] text-white shadow-lg backdrop-blur-md">
+                <MapPin size={14} className="text-jaguar-gold-light" />
+                {siteConfig.shortName}
               </span>
             </div>
-            <div className="p-6 sm:p-8">
-              <div className="flex items-start gap-4">
-                <span className="flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-2xl bg-jaguar-gold/15 text-jaguar-gold-dark">
-                  <Navigation size={20} />
+            <div className="relative overflow-hidden p-6 sm:p-8">
+              <div
+                aria-hidden="true"
+                className="absolute -right-10 -top-14 h-36 w-36 rounded-full bg-jaguar-gold/10 blur-2xl"
+              />
+              <div className="relative flex items-center gap-4">
+                <span className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-jaguar-red to-jaguar-red-dark text-white shadow-lg shadow-jaguar-red/20">
+                  <Navigation size={21} />
                 </span>
                 <div className="min-w-0">
-                  <p className="font-display text-xs font-semibold uppercase tracking-[0.2em] text-jaguar-gold-dark">
-                    Visit us
+                  <p className="font-display text-[10px] font-bold uppercase tracking-[0.22em] text-jaguar-gold-dark">
+                    Find us in
                   </p>
-                  <h3 className="mt-1 font-display text-xl font-bold uppercase text-jaguar-ink sm:text-2xl">
+                  <h3 className="mt-1 font-display text-xl font-bold uppercase leading-tight text-jaguar-ink sm:text-2xl">
                     {siteConfig.locationLabel}
                   </h3>
                 </div>
               </div>
               <p
-                className="mt-5 border-t border-jaguar-line pt-5 text-sm leading-7 text-jaguar-slate"
+                className="relative mt-6 rounded-2xl border border-jaguar-gold/20 bg-gradient-to-br from-jaguar-cream to-white px-5 py-5 text-center text-base font-semibold leading-9 text-jaguar-ink shadow-sm sm:px-7 sm:py-6 sm:text-lg sm:leading-10"
                 dir="rtl"
-                style={{ fontFamily: 'Noto Sans Ethiopic, system-ui, sans-serif' }}
+                style={{ fontFamily: '"Noto Sans Ethiopic", "Noto Serif Ethiopic", system-ui, sans-serif' }}
               >
                 {siteConfig.locationAmharic}
               </p>

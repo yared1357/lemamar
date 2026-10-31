@@ -29,7 +29,7 @@ export const siteConfig = {
     },
     facebook: {
       label: 'Facebook',
-      url: '',
+      url: '#',
       confirmed: false,
     },
     youtube: {

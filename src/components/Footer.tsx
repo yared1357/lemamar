@@ -67,15 +67,14 @@ export default function Footer() {
               >
                 <MessageCircle size={18} />
               </a>
-              <button
-                type="button"
-                disabled
-                aria-label="Facebook page not configured"
-                title="Facebook page not configured"
-                className="flex h-10 w-10 cursor-not-allowed items-center justify-center rounded-full border border-white/10 bg-white/5 text-neutral-500"
+              <a
+                href={siteConfig.social.facebook.url}
+                aria-label="Visit Facebook"
+                title="Facebook"
+                className="flex h-10 w-10 items-center justify-center rounded-full border border-white/15 bg-white/5 text-neutral-300 transition-all hover:border-jaguar-gold/60 hover:bg-jaguar-gold/10 hover:text-jaguar-gold-light"
               >
                 <Facebook size={18} />
-              </button>
+              </a>
             </div>
           </div>
 

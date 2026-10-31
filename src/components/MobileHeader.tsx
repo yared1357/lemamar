@@ -1,4 +1,4 @@
-import { MessageCircle, Music2, Phone } from 'lucide-react';
+import { Facebook, MessageCircle, Music2, Phone } from 'lucide-react';
 import Logo from '@/components/Logo';
 import { siteConfig } from '@/config/site';
 
@@ -36,6 +36,14 @@ export default function MobileHeader() {
           className="flex h-9 w-9 items-center justify-center rounded-full border border-jaguar-gold/40 bg-white/5 text-white transition-colors duration-200 active:bg-white/10"
         >
           <Music2 size={17} />
+        </a>
+        <a
+          href={siteConfig.social.facebook.url}
+          aria-label="Visit Facebook"
+          title="Facebook"
+          className="flex h-9 w-9 items-center justify-center rounded-full border border-jaguar-gold/40 bg-white/5 text-white transition-colors duration-200 active:bg-white/10"
+        >
+          <Facebook size={17} />
         </a>
         </div>
       </div>
