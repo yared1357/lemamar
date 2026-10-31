@@ -1,16 +1,19 @@
 export const heroSlides = [
   {
-    image:
+    image: '/slider1.png',
+    fallback:
       'https://images.pexels.com/photos/4761780/pexels-photo-4761780.jpeg?auto=compress&cs=tinysrgb&w=1920',
     alt: 'Two boxers in an intense match inside a boxing ring',
   },
   {
-    image:
+    image: '/slider2.png',
+    fallback:
       'https://images.pexels.com/photos/4761341/pexels-photo-4761341.jpeg?auto=compress&cs=tinysrgb&w=1920',
     alt: 'Silhouette of a boxer training with dramatic sunlight',
   },
   {
-    image:
+    image: '/slider3.png',
+    fallback:
       'https://images.pexels.com/photos/5750963/pexels-photo-5750963.jpeg?auto=compress&cs=tinysrgb&w=1920',
     alt: 'Professional boxer training alone in a boxing gym ring',
   },
