@@ -29,8 +29,8 @@ export const siteConfig = {
     },
     facebook: {
       label: 'Facebook',
-      url: '#',
-      confirmed: false,
+      url: 'https://www.facebook.com/mesfin.biru.12/posts/4288155427997655/',
+      confirmed: true,
     },
     youtube: {
       label: 'YouTube',
