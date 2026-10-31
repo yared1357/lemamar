@@ -11,7 +11,7 @@ export default function Hero() {
   const swiperRef = useRef<SwiperType | null>(null);
 
   return (
-    <section id="home" className="relative h-[70vh] w-full overflow-hidden bg-jaguar-dark lg:h-[100svh] lg:min-h-[640px]">
+    <section id="home" className="relative mt-16 aspect-[16/9] w-full overflow-hidden bg-jaguar-dark lg:mt-28 lg:aspect-auto lg:h-[100svh] lg:min-h-[640px]">
       <Swiper
         modules={[Autoplay, EffectFade]}
         effect="fade"
