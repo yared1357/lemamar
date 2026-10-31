@@ -67,11 +67,11 @@ export default function About() {
             transition={{ duration: 0.55 }}
             className="relative"
           >
-            <div className="relative aspect-[4/5] w-full overflow-hidden rounded-3xl bg-jaguar-dark shadow-xl shadow-jaguar-ink/15">
+            <div className="relative aspect-[4/5] w-full overflow-hidden rounded-3xl bg-jaguar-dark shadow-xl shadow-jaguar-ink/15 lg:aspect-[4/3]">
               <img
                 src={aboutImage}
                 alt="Boxer training in a ring"
-                className="absolute inset-0 h-full w-full object-contain"
+                className="absolute inset-0 h-full w-full object-cover object-top"
                 loading="lazy"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-jaguar-dark/70 via-transparent to-jaguar-dark/10" />

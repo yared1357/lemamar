@@ -8,6 +8,7 @@ import Gallery from '@/components/Gallery';
 import Contact from '@/components/Contact';
 import Footer from '@/components/Footer';
 import FloatingButtons from '@/components/FloatingButtons';
+import InstallPrompt from '@/components/InstallPrompt';
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
       <Footer />
       <BottomNav />
       <FloatingButtons />
+      <InstallPrompt />
     </div>
   );
 }
