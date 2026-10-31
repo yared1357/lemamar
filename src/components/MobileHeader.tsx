@@ -1,4 +1,4 @@
-import { Facebook, MessageCircle, Music2, Phone } from 'lucide-react';
+import { Facebook, MessageSquareText, Music2, Phone } from 'lucide-react';
 import Logo from '@/components/Logo';
 import { siteConfig } from '@/config/site';
 
@@ -18,14 +18,12 @@ export default function MobileHeader() {
           <Phone size={17} className="relative z-10 text-white" />
         </a>
         <a
-          href={siteConfig.whatsappUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label="Chat on WhatsApp"
-          title="WhatsApp"
+          href={`sms:${siteConfig.phoneIntl}`}
+          aria-label="Send a text message"
+          title="Text us"
           className="flex h-9 w-9 items-center justify-center rounded-full border border-jaguar-gold/50 bg-white/5 text-jaguar-gold-light transition-transform duration-200 active:scale-95 active:bg-jaguar-gold/15"
         >
-          <MessageCircle size={17} />
+          <MessageSquareText size={17} />
         </a>
         <a
           href={siteConfig.social.tiktok.url}
