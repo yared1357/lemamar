@@ -1,4 +1,12 @@
-import { Facebook, MapPin, MessageCircle, Music2, Navigation, Phone } from 'lucide-react';
+import {
+  Facebook,
+  MapPin,
+  MessageCircle,
+  MessageSquareText,
+  Music2,
+  Navigation,
+  Phone,
+} from 'lucide-react';
 import { motion } from 'framer-motion';
 import { siteConfig } from '@/config/site';
 
@@ -60,6 +68,14 @@ export default function Contact() {
                 >
                   <span className="absolute inset-0 rounded-full bg-jaguar-red animate-pulse-ring" />
                   <Phone size={20} className="relative z-10" />
+                </a>
+                <a
+                  href={`sms:${siteConfig.phoneIntl}`}
+                  aria-label="Send a text message"
+                  title="Text us"
+                  className="flex h-11 w-11 cursor-pointer items-center justify-center rounded-full border border-jaguar-gold/50 bg-white/5 text-jaguar-gold-light transition-all duration-200 hover:scale-110 hover:border-jaguar-gold hover:bg-white/10"
+                >
+                  <MessageSquareText size={20} />
                 </a>
                 <a
                   href={siteConfig.whatsappUrl}
