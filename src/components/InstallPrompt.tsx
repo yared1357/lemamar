@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Download, X } from 'lucide-react';
+import { Download } from 'lucide-react';
 
 interface BeforeInstallPromptEvent extends Event {
   prompt: () => Promise<void>;
@@ -67,36 +67,34 @@ export default function InstallPrompt() {
   return (
     <aside
       aria-label="Install The Jaguar app"
-      className="fixed right-3 top-20 z-[60] w-[min(22rem,calc(100vw-1.5rem))] rounded-2xl border border-jaguar-gold/30 bg-[linear-gradient(135deg,#20202a_0%,#17171e_100%)] p-4 text-white shadow-2xl shadow-black/25 lg:right-6 lg:top-28"
+      className="fixed bottom-28 left-3 right-3 z-[60] mx-auto max-w-sm rounded-2xl border border-jaguar-gold/30 bg-[linear-gradient(135deg,#252530_0%,#17171e_100%)] p-3 text-white shadow-xl shadow-black/30 sm:left-auto sm:right-4 sm:mx-0 sm:w-[min(20rem,calc(100vw-2rem))] lg:bottom-6 lg:right-6"
     >
-      <button
-        type="button"
-        onClick={dismissPrompt}
-        aria-label="Dismiss install reminder"
-        className="absolute right-2 top-2 rounded-full p-1.5 text-white/60 transition-colors hover:bg-white/10 hover:text-white"
-      >
-        <X size={16} />
-      </button>
-      <div className="flex items-center gap-3 pr-6">
-        <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-jaguar-gold/15 text-jaguar-gold-light">
-          <Download size={19} />
+      <div className="flex items-center gap-3">
+        <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-jaguar-gold/15 text-jaguar-gold-light">
+          <Download size={17} />
         </span>
-        <div>
-          <p className="font-display text-sm font-bold uppercase tracking-wide">Install The Jaguar</p>
-          <p className="mt-0.5 text-xs leading-relaxed text-white/65">
-            Add the app to your device for quick access.
-          </p>
+        <div className="min-w-0 flex-1">
+          <p className="font-display text-xs font-bold uppercase tracking-wide">Install The Jaguar</p>
         </div>
       </div>
-      <button
-        type="button"
-        onClick={handleInstall}
-        className="mt-3 w-full rounded-xl bg-jaguar-red px-4 py-2 text-xs font-bold uppercase tracking-wide text-white transition-colors hover:bg-jaguar-red-dark"
-      >
-        {installEvent ? 'Install app' : 'How to install'}
-      </button>
+      <div className="mt-3 flex justify-end gap-2">
+        <button
+          type="button"
+          onClick={dismissPrompt}
+          className="rounded-lg px-3 py-2 text-[11px] font-semibold text-white/65 transition-colors hover:bg-white/10 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-jaguar-gold"
+        >
+          Cancel
+        </button>
+        <button
+          type="button"
+          onClick={handleInstall}
+          className="rounded-lg bg-jaguar-red px-3 py-2 text-[11px] font-bold text-white transition-colors hover:bg-jaguar-red-dark focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-jaguar-gold"
+        >
+          Install
+        </button>
+      </div>
       {showInstructions && !installEvent && (
-        <p className="mt-3 text-xs leading-relaxed text-white/70">
+        <p className="mt-2 border-t border-white/10 pt-2 text-[11px] leading-relaxed text-white/70">
           Open your browser menu and choose “Add to Home Screen” or “Install app”.
         </p>
       )}
