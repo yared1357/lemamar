@@ -136,9 +136,6 @@ export default function Gallery() {
                 alt={galleryImages[lightboxIndex].alt}
                 className="w-full h-full object-contain rounded-lg"
               />
-              <p className="text-center mt-4 text-sm text-white/70">
-                {galleryImages[lightboxIndex].label} — {lightboxIndex + 1} of {galleryImages.length}
-              </p>
             </motion.div>
 
             <button

@@ -19,8 +19,7 @@ export const heroSlides = [
   },
 ];
 
-export const aboutImage =
-  'https://images.pexels.com/photos/4401653/pexels-photo-4401653.jpeg?auto=compress&cs=tinysrgb&w=1200';
+export const aboutImage = '/mesfin.jpeg';
 
 export const aboutImageSecondary =
   'https://images.pexels.com/photos/9944243/pexels-photo-9944243.jpeg?auto=compress&cs=tinysrgb&w=800';

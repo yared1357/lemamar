@@ -31,7 +31,7 @@ export default function Hero() {
                     event.currentTarget.src = slide.fallback;
                   }
                 }}
-                className="h-full w-full object-cover"
+                className="h-full w-full object-contain"
                 loading={idx === 0 ? 'eager' : 'lazy'}
               />
             </div>
