@@ -19,9 +19,10 @@ export default function Hero() {
       <Swiper
         modules={[Autoplay, Pagination, Navigation, EffectFade]}
         effect="fade"
-        autoplay={{ delay: 6000, disableOnInteraction: true, pauseOnMouseEnter: true }}
+        autoplay={{ delay: 5000, disableOnInteraction: false, pauseOnMouseEnter: true }}
         loop
         pagination={{ clickable: true }}
+        navigation={{ nextEl: '.hero-next', prevEl: '.hero-prev' }}
         onSwiper={(swiper) => (swiperRef.current = swiper)}
         className="absolute inset-0 h-full w-full"
       >
@@ -44,18 +45,20 @@ export default function Hero() {
 
       {/* Manual navigation arrows */}
       <button
+        type="button"
         onClick={() => swiperRef.current?.slidePrev()}
-        className="absolute left-3 top-1/2 z-20 hidden -translate-y-1/2 rounded-full border border-white/25 bg-black/20 p-2.5 backdrop-blur-md transition-colors duration-200 hover:bg-jaguar-red sm:left-6 sm:flex"
+        className="hero-prev absolute left-3 top-1/2 z-20 flex -translate-y-1/2 items-center justify-center rounded-full border border-white/25 bg-black/20 p-2.5 backdrop-blur-md transition-colors duration-200 hover:bg-jaguar-red sm:left-6"
         aria-label="Previous slide"
       >
-        <ChevronLeft size={26} className="text-white" />
+        <ChevronLeft size={24} className="text-white" />
       </button>
       <button
+        type="button"
         onClick={() => swiperRef.current?.slideNext()}
-        className="absolute right-3 top-1/2 z-20 hidden -translate-y-1/2 rounded-full border border-white/25 bg-black/20 p-2.5 backdrop-blur-md transition-colors duration-200 hover:bg-jaguar-red sm:right-6 sm:flex"
+        className="hero-next absolute right-3 top-1/2 z-20 flex -translate-y-1/2 items-center justify-center rounded-full border border-white/25 bg-black/20 p-2.5 backdrop-blur-md transition-colors duration-200 hover:bg-jaguar-red sm:right-6"
         aria-label="Next slide"
       >
-        <ChevR size={26} className="text-white" />
+        <ChevR size={24} className="text-white" />
       </button>
 
       {/* Content overlay */}

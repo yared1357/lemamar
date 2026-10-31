@@ -38,7 +38,12 @@ export default function Contact() {
               <div className="absolute inset-5 rounded-full border border-white/5" />
               <div className="absolute inset-12 rounded-full border border-white/5" />
             </div>
-            <div className="relative z-10 flex flex-1 flex-col">
+            <div className="relative z-10 flex flex-1 flex-col items-center text-center">
+              <img
+                src="/mesfin-biru-boxing-emblem.png"
+                alt=""
+                className="mb-5 h-16 w-16 rounded-2xl border border-jaguar-gold/40 bg-white/5 object-contain p-1.5 shadow-lg shadow-jaguar-gold/10"
+              />
               <h3 className="max-w-lg font-display text-3xl font-bold uppercase leading-[1.08] sm:text-4xl lg:text-5xl">
                 Ready to <span className="text-gradient-gold">train?</span>
               </h3>
@@ -46,7 +51,7 @@ export default function Contact() {
                 Call or message us to get started.
               </p>
 
-              <div className="mt-7 flex items-center gap-3">
+              <div className="mt-7 flex items-center justify-center gap-3">
                 <a
                   href={siteConfig.telUrl}
                   aria-label="Call the gym"
@@ -87,10 +92,10 @@ export default function Contact() {
                 </button>
               </div>
 
-              <div className="mt-auto border-t border-white/10 pt-5">
+              <div className="mt-auto w-full border-t border-white/10 pt-5">
                 <a
                   href={siteConfig.telUrl}
-                  className="group inline-flex min-w-0 items-center gap-3"
+                  className="group inline-flex items-center justify-center gap-3"
                   dir="ltr"
                 >
                   <span className="text-xs font-semibold uppercase tracking-[0.16em] text-white/45">Call us</span>
