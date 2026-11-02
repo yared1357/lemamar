@@ -171,6 +171,25 @@ export default function Contact() {
             </div>
           </motion.div>
         </div>
+
+        <div className="mx-auto mt-8 max-w-6xl md:hidden">
+          <div className="relative isolate overflow-hidden rounded-3xl border border-jaguar-gold/30 bg-[radial-gradient(ellipse_at_top_right,_rgba(212,175,55,0.2),_transparent_45%),linear-gradient(135deg,#17171e_0%,#252530_55%,#17171e_100%)] px-6 py-8 text-center text-white shadow-xl shadow-black/15">
+            <div
+              aria-hidden="true"
+              className="pointer-events-none absolute -right-10 -top-20 -z-10 h-48 w-48 rounded-full border border-jaguar-gold/15"
+            >
+              <div className="absolute inset-5 rounded-full border border-white/10" />
+              <div className="absolute inset-10 rounded-full border border-jaguar-red/20" />
+            </div>
+            <div className="mx-auto mb-4 h-1 w-12 rounded-full bg-gradient-to-r from-jaguar-red to-jaguar-gold" />
+            <h3 className="font-display text-xl font-black uppercase leading-tight tracking-wide sm:text-2xl">
+              Discipline builds <span className="text-gradient-gold">champions.</span>
+            </h3>
+            <p className="mt-3 text-[10px] font-bold uppercase tracking-[0.28em] text-white/65">
+              Lemamae Boxing Center
+            </p>
+          </div>
+        </div>
       </div>
     </section>
   );
