@@ -84,9 +84,6 @@ export default function Gallery() {
                     <ZoomIn size={20} className="text-white" />
                   </div>
                 </div>
-                <span className="absolute bottom-3 left-3 text-xs font-bold uppercase tracking-wider text-white">
-                  {img.label}
-                </span>
               </button>
             </SwiperSlide>
           ))}
@@ -128,13 +125,13 @@ export default function Gallery() {
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.25 }}
-              className="max-w-5xl max-h-[85vh] w-full px-12"
+              className="h-64 w-[calc(100%-6rem)] max-w-5xl sm:h-72 lg:h-80"
               onClick={(e) => e.stopPropagation()}
             >
               <img
                 src={galleryImages[lightboxIndex].image}
                 alt={galleryImages[lightboxIndex].alt}
-                className="w-full h-full object-contain rounded-lg"
+                className="h-full w-full rounded-lg object-contain"
               />
             </motion.div>
 

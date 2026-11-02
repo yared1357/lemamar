@@ -96,7 +96,7 @@ export const galleryImages = [
     label: 'Gallery 5',
   },
   {
-    image: '/gallery6.png',
+    image: '/gallery4.png',
     alt: 'Boxing gallery image 6',
     label: 'Gallery 6',
   },

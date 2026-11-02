@@ -10,8 +10,6 @@ interface NavigatorWithStandalone extends Navigator {
   standalone?: boolean;
 }
 
-const dismissedStorageKey = 'the-jaguar-install-prompt-dismissed';
-
 export default function InstallPrompt() {
   const [installEvent, setInstallEvent] = useState<BeforeInstallPromptEvent | null>(null);
   const [isInstalled, setIsInstalled] = useState(() => {
@@ -20,9 +18,7 @@ export default function InstallPrompt() {
       (navigator as NavigatorWithStandalone).standalone === true;
     return isStandalone;
   });
-  const [isDismissed, setIsDismissed] = useState(
-    () => localStorage.getItem(dismissedStorageKey) === 'true'
-  );
+  const [isDismissed, setIsDismissed] = useState(false);
   const [showInstructions, setShowInstructions] = useState(false);
 
   useEffect(() => {
@@ -31,7 +27,6 @@ export default function InstallPrompt() {
       setInstallEvent(event as BeforeInstallPromptEvent);
     };
     const handleAppInstalled = () => {
-      localStorage.removeItem(dismissedStorageKey);
       setIsInstalled(true);
       setInstallEvent(null);
     };
@@ -58,7 +53,6 @@ export default function InstallPrompt() {
   };
 
   const dismissPrompt = () => {
-    localStorage.setItem(dismissedStorageKey, 'true');
     setIsDismissed(true);
   };
 
