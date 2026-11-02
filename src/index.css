@@ -41,6 +41,15 @@
   width: 28px !important;
   border-radius: 4px !important;
 }
+.gallery-swiper .swiper-pagination-bullet {
+  background: #8b7352 !important;
+  border: 1px solid #6f5b41;
+  box-shadow: 0 1px 3px rgba(23, 23, 30, 0.25);
+}
+.gallery-swiper .swiper-pagination-bullet-active {
+  background: #E31B23 !important;
+  border-color: #b8141b;
+}
 .swiper-button-prev,
 .swiper-button-next {
   color: #D4AF37 !important;

@@ -62,7 +62,7 @@ export default function Gallery() {
             pauseOnMouseEnter: true,
           }}
           pagination={{ clickable: true }}
-          className="!overflow-visible !pb-12"
+          className="gallery-swiper !overflow-visible !pb-12"
         >
           {galleryImages.map((img, idx) => (
             <SwiperSlide key={idx}>
