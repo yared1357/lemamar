@@ -39,8 +39,8 @@ export const siteConfig = {
     },
     telegram: {
       label: 'Telegram',
-      url: '',
-      confirmed: false,
+      url: 'https://web.telegram.org/k/#@Mesfin_Biru',
+      confirmed: true,
     },
     whatsapp: {
       label: 'WhatsApp',

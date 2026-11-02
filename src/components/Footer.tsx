@@ -1,4 +1,13 @@
-import { ArrowUpRight, Facebook, MapPin, MessageCircle, Music2, Phone } from 'lucide-react';
+import {
+  ArrowUpRight,
+  Facebook,
+  MapPin,
+  MessageCircle,
+  MessageSquareText,
+  Music2,
+  Phone,
+  Send,
+} from 'lucide-react';
 import Logo from '@/components/Logo';
 import { siteConfig } from '@/config/site';
 
@@ -59,6 +68,14 @@ export default function Footer() {
                 <Music2 size={18} />
               </a>
               <a
+                href={`sms:${siteConfig.phoneIntl}`}
+                aria-label="Send a text message"
+                title="Text us"
+                className="flex h-10 w-10 items-center justify-center rounded-full border border-jaguar-gold/50 bg-white/5 text-jaguar-gold-light transition-all hover:border-jaguar-gold hover:bg-jaguar-gold/15"
+              >
+                <MessageSquareText size={18} />
+              </a>
+              <a
                 href={siteConfig.social.whatsapp.url}
                 target="_blank"
                 rel="noopener noreferrer"
@@ -74,6 +91,15 @@ export default function Footer() {
                 className="flex h-10 w-10 items-center justify-center rounded-full border border-white/15 bg-white/5 text-neutral-300 transition-all hover:border-jaguar-gold/60 hover:bg-jaguar-gold/10 hover:text-jaguar-gold-light"
               >
                 <Facebook size={18} />
+              </a>
+              <a
+                href={siteConfig.social.telegram.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Telegram"
+                className="flex h-10 w-10 items-center justify-center rounded-full border border-white/15 bg-white/5 text-neutral-300 transition-all hover:border-sky-400/60 hover:bg-sky-400/10 hover:text-sky-300"
+              >
+                <Send size={18} />
               </a>
             </div>
           </div>
@@ -110,6 +136,15 @@ export default function Footer() {
                 </span>
                 <span dir="ltr">+251 {siteConfig.phone}</span>
               </a>
+              <a
+                href={`sms:${siteConfig.phoneIntl}`}
+                className="flex items-center gap-3 text-sm text-neutral-300 transition-colors hover:text-white"
+              >
+                <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-jaguar-gold/10 text-jaguar-gold">
+                  <MessageSquareText size={16} />
+                </span>
+                Text us
+              </a>
               <div className="flex items-center gap-3 text-sm text-neutral-300">
                 <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-jaguar-gold/10 text-jaguar-gold">
                   <MapPin size={16} />
@@ -126,6 +161,17 @@ export default function Footer() {
                   <Music2 size={16} />
                 </span>
                 {siteConfig.social.tiktok.username}
+              </a>
+              <a
+                href={siteConfig.social.telegram.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-3 text-sm text-neutral-300 transition-colors hover:text-white"
+              >
+                <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-sky-400/10 text-sky-300">
+                  <Send size={16} />
+                </span>
+                Telegram
               </a>
             </div>
           </div>

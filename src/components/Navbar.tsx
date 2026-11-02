@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Facebook, MessageSquareText, Music2, Phone } from 'lucide-react';
+import { MessageSquareText, Phone, Send } from 'lucide-react';
 import Logo from '@/components/Logo';
 import { siteConfig } from '@/config/site';
 
@@ -67,22 +67,14 @@ export default function Navbar() {
             <MessageSquareText size={21} />
           </a>
           <a
-            href={siteConfig.social.tiktok.url}
+            href={siteConfig.social.telegram.url}
             target="_blank"
             rel="noopener noreferrer"
-            aria-label="Visit TikTok"
-            title="TikTok"
-            className="flex h-11 w-11 items-center justify-center rounded-full border border-jaguar-gold/40 bg-white/5 text-white transition-colors duration-200 hover:border-jaguar-gold hover:bg-white/10"
+            aria-label="Visit Telegram"
+            title="Telegram"
+            className="flex h-11 w-11 items-center justify-center rounded-full border border-sky-400/50 bg-white/5 text-sky-300 transition-colors duration-200 hover:border-sky-300 hover:bg-sky-400/10"
           >
-            <Music2 size={21} />
-          </a>
-          <a
-            href={siteConfig.social.facebook.url}
-            aria-label="Visit Facebook"
-            title="Facebook"
-            className="flex h-11 w-11 items-center justify-center rounded-full border border-jaguar-gold/40 bg-white/5 text-white transition-colors duration-200 hover:border-jaguar-gold hover:bg-white/10"
-          >
-            <Facebook size={21} />
+            <Send size={21} />
           </a>
         </div>
       </nav>
