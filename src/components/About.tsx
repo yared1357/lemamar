@@ -77,7 +77,7 @@ export default function About() {
               <div className="absolute inset-0 bg-gradient-to-t from-jaguar-dark/70 via-transparent to-jaguar-dark/10" />
               <div className="absolute bottom-4 left-4 inline-flex items-center gap-2 rounded-full border border-white/20 bg-black/35 px-3 py-1.5 text-[10px] font-semibold uppercase tracking-[0.2em] text-white backdrop-blur-md sm:bottom-5 sm:left-5">
                 <span className="h-1.5 w-1.5 rounded-full bg-jaguar-gold" />
-                Built in the ring andand
+                Built in the ring
               </div>
             </div>
             <div className="absolute -bottom-3 -right-2 -z-10 h-24 w-24 rounded-br-3xl border-b-2 border-r-2 border-jaguar-gold/60 sm:-bottom-4 sm:-right-4 sm:h-32 sm:w-32" />
