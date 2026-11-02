@@ -71,75 +71,43 @@ export const trainingPrograms = [
 
 export const galleryImages = [
   {
-    image:
-      'https://images.pexels.com/photos/4761341/pexels-photo-4761341.jpeg?auto=compress&cs=tinysrgb&w=1200',
-    alt: 'Boxer silhouette training in dramatic light',
-    label: 'Training',
+    image: '/gallery1.png',
+    alt: 'Boxing gallery image 1',
+    label: 'Gallery 1',
   },
   {
-    image:
-      'https://images.pexels.com/photos/5424583/pexels-photo-5424583.jpeg?auto=compress&cs=tinysrgb&w=1200',
-    alt: 'Two fighters sparring in a gym',
-    label: 'Sparring',
+    image: '/gallery2.png',
+    alt: 'Boxing gallery image 2',
+    label: 'Gallery 2',
   },
   {
-    image:
-      'https://images.pexels.com/photos/6296066/pexels-photo-6296066.jpeg?auto=compress&cs=tinysrgb&w=1200',
-    alt: 'Boxing gloves resting on a tire',
-    label: 'Equipment',
+    image: '/gallery3.png',
+    alt: 'Boxing gallery image 3',
+    label: 'Gallery 3',
   },
   {
-    image:
-      'https://images.pexels.com/photos/8991301/pexels-photo-8991301.jpeg?auto=compress&cs=tinysrgb&w=1200',
-    alt: 'Two boxers facing off in a ring',
-    label: 'Boxing Ring',
+    image: '/gallery4.png',
+    alt: 'Boxing gallery image 4',
+    label: 'Gallery 4',
   },
   {
-    image:
-      'https://images.pexels.com/photos/4401653/pexels-photo-4401653.jpeg?auto=compress&cs=tinysrgb&w=1200',
-    alt: 'Young boxer in defending pose on the ring',
-    label: 'Athletes',
+    image: '/gallery5.png',
+    alt: 'Boxing gallery image 5',
+    label: 'Gallery 5',
   },
   {
-    image:
-      'https://images.pexels.com/photos/6739958/pexels-photo-6739958.jpeg?auto=compress&cs=tinysrgb&w=1200',
-    alt: 'Modern gym with punching bags',
-    label: 'Training Center',
+    image: '/gallery6.png',
+    alt: 'Boxing gallery image 6',
+    label: 'Gallery 6',
   },
   {
-    image:
-      'https://images.pexels.com/photos/5750875/pexels-photo-5750875.jpeg?auto=compress&cs=tinysrgb&w=1200',
-    alt: 'Two boxers sparring in a gym',
-    label: 'Sparring',
+    image: '/gallery7.png',
+    alt: 'Boxing gallery image 7',
+    label: 'Gallery 7',
   },
   {
-    image:
-      'https://images.pexels.com/photos/6720431/pexels-photo-6720431.jpeg?auto=compress&cs=tinysrgb&w=1200',
-    alt: 'Boxer preparing for training',
-    label: 'Training',
-  },
-  {
-    image:
-      'https://images.pexels.com/photos/5750963/pexels-photo-5750963.jpeg?auto=compress&cs=tinysrgb&w=1200',
-    alt: 'Boxer training in the ring',
-    label: 'Boxing Ring',
-  },
-  {
-    image:
-      'https://images.pexels.com/photos/14856111/pexels-photo-14856111.jpeg?auto=compress&cs=tinysrgb&w=1200',
-    alt: 'Speed bag in a gym',
-    label: 'Equipment',
-  },
-  {
-    image:
-      'https://images.pexels.com/photos/5956910/pexels-photo-5956910.jpeg?auto=compress&cs=tinysrgb&w=1200',
-    alt: 'Athlete practicing boxing hits in the ring',
-    label: 'Athletes',
-  },
-  {
-    image:
-      'https://images.pexels.com/photos/4804056/pexels-photo-4804056.jpeg?auto=compress&cs=tinysrgb&w=1200',
-    alt: 'Athletic man practicing boxing with punching bag',
-    label: 'Training Center',
+    image: '/gallery8.png',
+    alt: 'Boxing gallery image 8',
+    label: 'Gallery 8',
   },
 ];
