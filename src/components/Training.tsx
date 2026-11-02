@@ -43,11 +43,11 @@ export default function Training() {
               transition={{ duration: 0.5, delay: idx * 0.05 }}
               className="group relative rounded-2xl overflow-hidden bg-jaguar-card shadow-md hover:shadow-xl transition-shadow duration-300 cursor-pointer"
             >
-              <div className="relative aspect-[4/3] overflow-hidden">
+              <div className="relative aspect-[4/3] overflow-hidden bg-jaguar-dark">
                 <img
                   src={program.image}
                   alt={program.title}
-                  className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
+                  className="h-full w-full object-contain"
                   loading="lazy"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-jaguar-dark via-jaguar-dark/20 to-transparent" />
@@ -94,11 +94,11 @@ export default function Training() {
           >
             {trainingPrograms.map((program, idx) => (
               <SwiperSlide key={idx}>
-                <div className="relative rounded-2xl overflow-hidden shadow-md h-80">
+                <div className="relative rounded-2xl overflow-hidden bg-jaguar-dark shadow-md h-80">
                   <img
                     src={program.image}
                     alt={program.title}
-                    className="h-full w-full object-cover"
+                    className="h-full w-full object-contain"
                     loading="lazy"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-jaguar-dark via-jaguar-dark/30 to-transparent" />

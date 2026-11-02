@@ -29,43 +29,37 @@ export const trainingPrograms = [
     title: 'Beginner Boxing',
     description:
       'Start your journey with fundamental stance, footwork, and basic punches. Perfect for those new to the sport.',
-    image:
-      'https://images.pexels.com/photos/8810062/pexels-photo-8810062.jpeg?auto=compress&cs=tinysrgb&w=800',
+    image: '/training1.png',
   },
   {
     title: 'Professional Boxing Training',
     description:
       'Advanced training for competitive fighters — ring strategy, conditioning, and fight preparation.',
-    image:
-      'https://images.pexels.com/photos/4761780/pexels-photo-4761780.jpeg?auto=compress&cs=tinysrgb&w=800',
+    image: '/training2.png',
   },
   {
     title: 'Boxing Fitness',
     description:
       'High-intensity boxing workouts that burn calories, build endurance, and tone your entire body.',
-    image:
-      'https://images.pexels.com/photos/5750760/pexels-photo-5750760.jpeg?auto=compress&cs=tinysrgb&w=800',
+    image: '/training3.png',
   },
   {
     title: 'Personal Coaching',
     description:
       'One-on-one sessions tailored to your goals, skill level, and schedule with personalized guidance.',
-    image:
-      'https://images.pexels.com/photos/6740342/pexels-photo-6740342.jpeg?auto=compress&cs=tinysrgb&w=800',
+    image: '/training4.png',
   },
   {
     title: 'Strength & Conditioning',
     description:
       'Build explosive power, speed, and resilience with sport-specific strength training programs.',
-    image:
-      'https://images.pexels.com/photos/6296109/pexels-photo-6296109.jpeg?auto=compress&cs=tinysrgb&w=800',
+    image: '/training5.png',
   },
   {
     title: 'Boxing Techniques & Skills',
     description:
       'Master defensive maneuvers, combinations, ring IQ, and the technical art of boxing.',
-    image:
-      'https://images.pexels.com/photos/4401810/pexels-photo-4401810.jpeg?auto=compress&cs=tinysrgb&w=800',
+    image: '/training6.png',
   },
 ];
 
