@@ -88,7 +88,7 @@ export default function InstallPrompt() {
         <button
           type="button"
           onClick={handleInstall}
-          className="rounded-lg bg-jaguar-red px-3 py-2 text-[11px] font-bold text-white transition-colors hover:bg-jaguar-red-dark focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-jaguar-gold"
+          className="rounded-xl bg-gradient-to-r from-jaguar-red via-[#ff4d4f] to-[#ff7a00] px-4 py-2.5 text-[11px] font-black uppercase tracking-[0.12em] text-white shadow-[0_10px_22px_rgba(227,27,35,0.35)] transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_14px_26px_rgba(227,27,35,0.42)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-jaguar-gold"
         >
           Install
         </button>
