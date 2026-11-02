@@ -133,14 +133,14 @@ export default function Footer() {
 
         <div className="flex flex-col items-center justify-between gap-3 pt-6 text-center sm:flex-row sm:text-left">
           <p className="text-xs text-neutral-500">
-            Copyright © {new Date().getFullYear()} {siteConfig.fullName}. All rights reserved. Developed by{' '}
+            Copyright © {new Date().getFullYear()} Mesfin Biru. All rights reserved. Developed by{' '}
             <a
               href="https://yared.infinityfreeapp.com"
               target="_blank"
               rel="noopener noreferrer"
               className="font-semibold text-neutral-300 transition-colors hover:text-jaguar-gold-light"
             >
-              Y-Global System Solutions
+              Y-Global System Solution
             </a>
           </p>
           <p className="font-display text-xs font-medium uppercase tracking-[0.18em] text-neutral-400">
