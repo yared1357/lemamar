@@ -4,6 +4,7 @@ import { fileURLToPath, URL } from 'node:url';
 import { VitePWA } from 'vite-plugin-pwa';
 
 export default defineConfig({
+  base: '/',
   plugins: [
     react(),
     VitePWA({
@@ -45,7 +46,20 @@ export default defineConfig({
       workbox: {
         maximumFileSizeToCacheInBytes: 3 * 1024 * 1024,
         globPatterns: ['**/*.{js,css,html,ico,png,svg,woff2}'],
+        navigateFallbackDenylist: [/^\/$/],
         runtimeCaching: [
+          {
+            urlPattern: ({ request, url }) =>
+              request.mode === 'navigate' && url.pathname === '/',
+            handler: 'NetworkFirst',
+            options: {
+              cacheName: 'app-navigation',
+              networkTimeoutSeconds: 3,
+              expiration: {
+                maxEntries: 1,
+              },
+            },
+          },
           {
             urlPattern: ({ url }) => url.origin === 'https://images.pexels.com',
             handler: 'CacheFirst',
