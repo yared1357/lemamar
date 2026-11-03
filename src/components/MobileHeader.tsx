@@ -1,4 +1,4 @@
-import { MessageSquareText, Phone, Send } from 'lucide-react';
+import { MessageSquareText, Music2, Phone } from 'lucide-react';
 import Logo from '@/components/Logo';
 import { siteConfig } from '@/config/site';
 
@@ -26,14 +26,14 @@ export default function MobileHeader() {
           <MessageSquareText size={17} />
         </a>
         <a
-          href={siteConfig.social.telegram.url}
+          href={siteConfig.social.tiktok.url}
           target="_blank"
           rel="noopener noreferrer"
-          aria-label="Visit Telegram"
-          title="Telegram"
-          className="flex h-9 w-9 items-center justify-center rounded-full border border-sky-400/50 bg-white/5 text-sky-300 transition-colors duration-200 active:bg-sky-400/10"
+          aria-label="Visit TikTok"
+          title="TikTok"
+          className="flex h-9 w-9 items-center justify-center rounded-full border border-jaguar-gold/40 bg-white/5 text-white transition-colors duration-200 active:bg-white/10"
         >
-          <Send size={17} />
+          <Music2 size={17} />
         </a>
         </div>
       </div>
