@@ -6,7 +6,6 @@ import {
   MessageSquareText,
   Music2,
   Phone,
-  Send,
 } from 'lucide-react';
 import Logo from '@/components/Logo';
 import { siteConfig } from '@/config/site';
@@ -92,15 +91,6 @@ export default function Footer() {
               >
                 <Facebook size={18} />
               </a>
-              <a
-                href={siteConfig.social.telegram.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="Telegram"
-                className="flex h-10 w-10 items-center justify-center rounded-full border border-white/15 bg-white/5 text-neutral-300 transition-all hover:border-sky-400/60 hover:bg-sky-400/10 hover:text-sky-300"
-              >
-                <Send size={18} />
-              </a>
             </div>
           </div>
 
@@ -161,17 +151,6 @@ export default function Footer() {
                   <Music2 size={16} />
                 </span>
                 {siteConfig.social.tiktok.username}
-              </a>
-              <a
-                href={siteConfig.social.telegram.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-3 text-sm text-neutral-300 transition-colors hover:text-white"
-              >
-                <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-sky-400/10 text-sky-300">
-                  <Send size={16} />
-                </span>
-                Telegram
               </a>
             </div>
           </div>
