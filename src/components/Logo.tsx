@@ -12,7 +12,7 @@ export default function Logo({ className = '', size = 64, variant = 'light' }: L
   return (
     <a
       href="#home"
-      aria-label="LEMAMER Boxing Center home"
+      aria-label="LEMAMER Boxing Club home"
       className={`group inline-flex min-w-0 items-center gap-2.5 ${className}`}
     >
       <span className="relative flex-shrink-0 rounded-2xl border border-jaguar-gold/45 bg-gradient-to-br from-white/15 to-black/10 p-0.5 shadow-[0_4px_18px_rgba(212,175,55,0.18)] transition duration-300 group-hover:-translate-y-0.5 group-hover:border-jaguar-gold group-hover:shadow-[0_6px_24px_rgba(212,175,55,0.3)]">
@@ -39,7 +39,7 @@ export default function Logo({ className = '', size = 64, variant = 'light' }: L
               size < 70 ? 'text-[0.55rem] sm:text-[0.6rem]' : 'text-[0.62rem]'
             }`}
           >
-            Boxing Center
+            Boxing Club
           </span>
           <span className="h-[2px] w-3 rounded-full bg-jaguar-gold sm:w-4" />
         </span>
