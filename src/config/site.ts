@@ -39,7 +39,7 @@ export const siteConfig = {
     },
     telegram: {
       label: 'Telegram',
-      url: 'https://webogram.org/a/#8949926669',
+      url: 'https://t.me/Mesfin_Biru',
       confirmed: true,
     },
     whatsapp: {
