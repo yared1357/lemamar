@@ -135,16 +135,10 @@ export default function Contact() {
                 <div className="absolute inset-10 rounded-full border border-jaguar-red/20" />
               </div>
               <div className="relative">
-                <p className="text-[10px] font-bold uppercase tracking-[0.24em] text-jaguar-gold-light">
-                  Start your boxing journey
-                </p>
                 <h3 className="mt-2 font-display text-2xl font-bold uppercase sm:text-3xl">
                   Get in touch
                 </h3>
-                <p className="mt-2 max-w-md text-sm leading-6 text-white/70">
-                  Tell us how to reach you and what you’d like to know. We’ll be in touch soon.
-                </p>
-              </div>
+                 </div>
             </div>
             <div className="p-6 sm:p-9">
               <form
@@ -344,11 +338,7 @@ export default function Contact() {
                   </p>
                 )}
               </form>
-              <p className="mt-5 text-xs leading-5 text-jaguar-ash">
-                Registration details are sent securely through EmailJS to the address configured in the
-                EmailJS template.
-              </p>
-
+             
               <div className="mt-6 flex flex-wrap items-center justify-between gap-4 border-t border-jaguar-line pt-5">
                 <a
                   href={siteConfig.telUrl}
