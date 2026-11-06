@@ -1,4 +1,5 @@
 import { useRef, useState, type FormEvent } from 'react';
+import emailjs from '@emailjs/browser';
 import {
   Facebook,
   LoaderCircle,
@@ -13,15 +14,20 @@ import {
 import { motion } from 'framer-motion';
 import { siteConfig } from '@/config/site';
 
-export default function Contact() {
-  const formRef = useRef<HTMLFormElement>(null);
-  const isSubmitting = useRef(false);
-  const submitTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const [status, setStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
+const emailJsConfig = {
+  serviceId: import.meta.env.VITE_EMAILJS_SERVICE_ID,
+  templateId: import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
+  publicKey: import.meta.env.VITE_EMAILJS_PUBLIC_KEY,
+};
 
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+export default function Contact() {
+  const isSubmittingRef = useRef(false);
+  const [status, setStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
+  const [errorMessage, setErrorMessage] = useState('');
+
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    if (isSubmitting.current) return;
+    if (isSubmittingRef.current) return;
 
     const form = event.currentTarget;
     const phone = form.elements.namedItem('phone');
@@ -39,54 +45,46 @@ export default function Contact() {
       }
     }
 
-    isSubmitting.current = true;
-    setStatus('submitting');
-
-    const nextUrl = new URL(window.location.href);
-    nextUrl.searchParams.delete('formsubmit');
-    nextUrl.searchParams.set('formsubmit', 'success');
-    nextUrl.hash = 'contact';
-    const nextField = form.elements.namedItem('_next');
-    if (nextField instanceof HTMLInputElement) {
-      nextField.value = nextUrl.toString();
+    const { serviceId, templateId, publicKey } = emailJsConfig;
+    if (!serviceId || !templateId || !publicKey) {
+      setErrorMessage('The registration form is not configured yet. Please call the gym to register.');
+      setStatus('error');
+      return;
     }
 
-    submitTimeout.current = setTimeout(() => {
-      isSubmitting.current = false;
-      setStatus('error');
-    }, 30000);
-    form.submit();
-  };
+    isSubmittingRef.current = true;
+    setStatus('submitting');
+    setErrorMessage('');
 
-  const handleFormResponse = (event: React.SyntheticEvent<HTMLIFrameElement>) => {
-    if (!isSubmitting.current) return;
+    const formData = new FormData(form);
+    const templateParams = {
+      name: String(formData.get('name') ?? ''),
+      age: String(formData.get('age') ?? ''),
+      phone: String(formData.get('phone') ?? ''),
+      email: String(formData.get('email') ?? ''),
+      reply_to: String(formData.get('email') ?? ''),
+      gender: String(formData.get('gender') ?? ''),
+      training_experience: String(formData.get('training_experience') ?? ''),
+      preferred_training_time: String(formData.get('preferred_training_time') ?? ''),
+      message: String(formData.get('message') ?? ''),
+    };
 
     try {
-      const responseLocation = event.currentTarget.contentWindow?.location;
-      if (!responseLocation) return;
-      const responseUrl = new URL(responseLocation.href);
-      if (responseUrl.origin === 'null') return;
-
-      if (
-        responseUrl.origin === window.location.origin &&
-        responseUrl.searchParams.get('formsubmit') === 'success'
-      ) {
-        if (submitTimeout.current) clearTimeout(submitTimeout.current);
-        formRef.current?.reset();
-        isSubmitting.current = false;
-        setStatus('success');
-        return;
+      const response = await emailjs.send(serviceId, templateId, templateParams, { publicKey });
+      if (response.status !== 200) {
+        throw new Error(`EmailJS returned status ${response.status}.`);
       }
 
-      if (responseUrl.origin !== window.location.origin) {
-        if (submitTimeout.current) clearTimeout(submitTimeout.current);
-        isSubmitting.current = false;
-        setStatus('error');
-      }
-    } catch {
-      if (submitTimeout.current) clearTimeout(submitTimeout.current);
-      isSubmitting.current = false;
+      form.reset();
+      setStatus('success');
+    } catch (error) {
+      console.error('EmailJS registration submission failed.', error);
+      setErrorMessage(
+        'We couldn’t send your registration right now. Please try again or call the gym.'
+      );
       setStatus('error');
+    } finally {
+      isSubmittingRef.current = false;
     }
   };
 
@@ -150,17 +148,16 @@ export default function Contact() {
             </div>
             <div className="p-6 sm:p-9">
               <form
-                ref={formRef}
-                action={siteConfig.formSubmitUrl}
-                method="POST"
-                target="lemamar-contact-response"
                 onSubmit={handleSubmit}
+                onChange={() => {
+                  if (status !== 'submitting') {
+                    setStatus('idle');
+                    setErrorMessage('');
+                  }
+                }}
                 aria-busy={status === 'submitting'}
                 className="space-y-5"
               >
-                <input type="hidden" name="_subject" value="New Contact Message - Lemamar Boxing" />
-                <input type="hidden" name="_template" value="table" />
-                <input type="hidden" name="_next" value="" />
                 <div
                   aria-hidden="true"
                   className="absolute -left-[9999px] h-px w-px overflow-hidden"
@@ -211,6 +208,41 @@ export default function Contact() {
                   </div>
                 </div>
 
+                <div className="grid gap-5 sm:grid-cols-2">
+                  <div>
+                    <label htmlFor="contact-age" className="mb-2 block text-sm font-semibold text-jaguar-ink">
+                      Age <span className="text-jaguar-red" aria-hidden="true">*</span>
+                    </label>
+                    <input
+                      id="contact-age"
+                      name="age"
+                      type="number"
+                      inputMode="numeric"
+                      min={1}
+                      max={120}
+                      required
+                      placeholder="Your age"
+                      className="w-full rounded-xl border border-jaguar-line bg-jaguar-cream/60 px-4 py-3 text-sm text-jaguar-ink outline-none transition placeholder:text-jaguar-ash focus:border-jaguar-red focus:ring-4 focus:ring-jaguar-red/10"
+                    />
+                  </div>
+                  <div>
+                    <label htmlFor="contact-gender" className="mb-2 block text-sm font-semibold text-jaguar-ink">
+                      Gender <span className="font-normal text-jaguar-ash">(optional)</span>
+                    </label>
+                    <select
+                      id="contact-gender"
+                      name="gender"
+                      defaultValue=""
+                      className="w-full rounded-xl border border-jaguar-line bg-jaguar-cream/60 px-4 py-3 text-sm text-jaguar-ink outline-none transition focus:border-jaguar-red focus:ring-4 focus:ring-jaguar-red/10"
+                    >
+                      <option value="">Select if you wish</option>
+                      <option value="Female">Female</option>
+                      <option value="Male">Male</option>
+                      <option value="Prefer not to say">Prefer not to say</option>
+                    </select>
+                  </div>
+                </div>
+
                 <div>
                   <label htmlFor="contact-email" className="mb-2 block text-sm font-semibold text-jaguar-ink">
                     Email Address <span className="font-normal text-jaguar-ash">(optional)</span>
@@ -226,42 +258,54 @@ export default function Contact() {
                   />
                 </div>
 
+                <div className="grid gap-5 sm:grid-cols-2">
+                  <div>
+                    <label htmlFor="contact-experience" className="mb-2 block text-sm font-semibold text-jaguar-ink">
+                      Training Experience <span className="font-normal text-jaguar-ash">(optional)</span>
+                    </label>
+                    <select
+                      id="contact-experience"
+                      name="training_experience"
+                      defaultValue=""
+                      className="w-full rounded-xl border border-jaguar-line bg-jaguar-cream/60 px-4 py-3 text-sm text-jaguar-ink outline-none transition focus:border-jaguar-red focus:ring-4 focus:ring-jaguar-red/10"
+                    >
+                      <option value="">Choose your level</option>
+                      <option value="Beginner">Beginner</option>
+                      <option value="Intermediate">Intermediate</option>
+                      <option value="Advanced">Advanced</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label htmlFor="contact-time" className="mb-2 block text-sm font-semibold text-jaguar-ink">
+                      Preferred Training Time <span className="font-normal text-jaguar-ash">(optional)</span>
+                    </label>
+                    <select
+                      id="contact-time"
+                      name="preferred_training_time"
+                      defaultValue=""
+                      className="w-full rounded-xl border border-jaguar-line bg-jaguar-cream/60 px-4 py-3 text-sm text-jaguar-ink outline-none transition focus:border-jaguar-red focus:ring-4 focus:ring-jaguar-red/10"
+                    >
+                      <option value="">Choose a time</option>
+                      <option value="Morning">Morning</option>
+                      <option value="Afternoon">Afternoon</option>
+                      <option value="Evening">Evening</option>
+                    </select>
+                  </div>
+                </div>
+
                 <div>
                   <label htmlFor="contact-message" className="mb-2 block text-sm font-semibold text-jaguar-ink">
-                    Message <span className="text-jaguar-red" aria-hidden="true">*</span>
+                    Additional Message <span className="font-normal text-jaguar-ash">(optional)</span>
                   </label>
                   <textarea
                     id="contact-message"
                     name="message"
                     rows={4}
-                    minLength={8}
                     maxLength={2000}
-                    required
                     placeholder="Tell us what you’d like to know about training..."
                     className="w-full resize-y rounded-xl border border-jaguar-line bg-jaguar-cream/60 px-4 py-3 text-sm text-jaguar-ink outline-none transition placeholder:text-jaguar-ash focus:border-jaguar-red focus:ring-4 focus:ring-jaguar-red/10"
                   />
                 </div>
-
-                {status === 'success' && (
-                  <div
-                    role="status"
-                    className="rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm font-medium leading-6 text-emerald-800"
-                  >
-                    Your registration request has been received! Mesfin Biru’s team will contact you soon.
-                  </div>
-                )}
-                {status === 'error' && (
-                  <div
-                    role="alert"
-                    className="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm leading-6 text-red-800"
-                  >
-                    We couldn’t send your message right now. Please try again or call the gym at{' '}
-                    <a className="font-semibold underline" href={siteConfig.telUrl}>
-                      {siteConfig.phoneIntl}
-                    </a>
-                    .
-                  </div>
-                )}
 
                 <button
                   type="submit"
@@ -280,19 +324,29 @@ export default function Contact() {
                     </>
                   )}
                 </button>
+                {status === 'success' && (
+                  <p
+                    role="status"
+                    className="rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm font-medium leading-6 text-emerald-800"
+                  >
+                    Your registration request has been received! Mesfin Biru’s team will contact you soon.
+                  </p>
+                )}
+                {status === 'error' && (
+                  <p
+                    role="alert"
+                    className="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm leading-6 text-red-800"
+                  >
+                    {errorMessage}{' '}
+                    <a className="font-semibold underline" href={siteConfig.telUrl}>
+                      Call {siteConfig.phoneIntl}
+                    </a>
+                  </p>
+                )}
               </form>
-              <iframe
-                name="lemamar-contact-response"
-                title="Contact form response"
-                aria-hidden="true"
-                tabIndex={-1}
-                onLoad={handleFormResponse}
-                className="absolute h-0 w-0 border-0"
-              />
-
               <p className="mt-5 text-xs leading-5 text-jaguar-ash">
-                Messages are delivered to yared1357@gmail.com through FormSubmit. For the first message,
-                confirm the activation email FormSubmit sends to this inbox.
+                Registration details are sent securely through EmailJS to the address configured in the
+                EmailJS template.
               </p>
 
               <div className="mt-6 flex flex-wrap items-center justify-between gap-4 border-t border-jaguar-line pt-5">

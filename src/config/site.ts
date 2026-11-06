@@ -10,7 +10,6 @@ export const siteConfig = {
   whatsapp: '251944005758',
   whatsappUrl: 'https://wa.me/251944005758',
   telUrl: 'tel:+251944005758',
-  formSubmitUrl: 'https://formsubmit.co/yared1357@gmail.com',
   locationAmharic:
     'ሌማመር በኢትዮጵያ የመጀመሪያው ቦክስ ጂም ጄኔራል ውንጌት ት/ቤት ጀርባ ወደ ብርጭቆ በሚወስደው መንገድ ጠሮ አደባባይ!',
   locationLabel: 'Addis Ababa, Ethiopia',
