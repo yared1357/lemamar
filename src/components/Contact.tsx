@@ -14,10 +14,12 @@ import { motion } from 'framer-motion';
 import { siteConfig } from '@/config/site';
 
 export default function Contact() {
+  const formRef = useRef<HTMLFormElement>(null);
   const isSubmitting = useRef(false);
+  const submitTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
   const [status, setStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
 
-  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (isSubmitting.current) return;
 
@@ -40,34 +42,51 @@ export default function Contact() {
     isSubmitting.current = true;
     setStatus('submitting');
 
+    const nextUrl = new URL(window.location.href);
+    nextUrl.searchParams.delete('formsubmit');
+    nextUrl.searchParams.set('formsubmit', 'success');
+    nextUrl.hash = 'contact';
+    const nextField = form.elements.namedItem('_next');
+    if (nextField instanceof HTMLInputElement) {
+      nextField.value = nextUrl.toString();
+    }
+
+    submitTimeout.current = setTimeout(() => {
+      isSubmitting.current = false;
+      setStatus('error');
+    }, 30000);
+    form.submit();
+  };
+
+  const handleFormResponse = (event: React.SyntheticEvent<HTMLIFrameElement>) => {
+    if (!isSubmitting.current) return;
+
     try {
-      const response = await fetch(siteConfig.formSubmitUrl, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Accept: 'application/json',
-        },
-        body: JSON.stringify(Object.fromEntries(new FormData(form).entries())),
-      });
-      const result: unknown = await response.json();
-      const responseBody =
-        typeof result === 'object' && result !== null
-          ? (result as { success?: boolean | string })
-          : null;
+      const responseLocation = event.currentTarget.contentWindow?.location;
+      if (!responseLocation) return;
+      const responseUrl = new URL(responseLocation.href);
+      if (responseUrl.origin === 'null') return;
 
       if (
-        !response.ok ||
-        (responseBody?.success !== true && responseBody?.success !== 'true')
+        responseUrl.origin === window.location.origin &&
+        responseUrl.searchParams.get('formsubmit') === 'success'
       ) {
-        throw new Error('Submission was not accepted.');
+        if (submitTimeout.current) clearTimeout(submitTimeout.current);
+        formRef.current?.reset();
+        isSubmitting.current = false;
+        setStatus('success');
+        return;
       }
 
-      form.reset();
-      setStatus('success');
+      if (responseUrl.origin !== window.location.origin) {
+        if (submitTimeout.current) clearTimeout(submitTimeout.current);
+        isSubmitting.current = false;
+        setStatus('error');
+      }
     } catch {
-      setStatus('error');
-    } finally {
+      if (submitTimeout.current) clearTimeout(submitTimeout.current);
       isSubmitting.current = false;
+      setStatus('error');
     }
   };
 
@@ -131,12 +150,17 @@ export default function Contact() {
             </div>
             <div className="p-6 sm:p-9">
               <form
+                ref={formRef}
+                action={siteConfig.formSubmitUrl}
+                method="POST"
+                target="lemamar-contact-response"
                 onSubmit={handleSubmit}
                 aria-busy={status === 'submitting'}
                 className="space-y-5"
               >
                 <input type="hidden" name="_subject" value="New Contact Message - Lemamar Boxing" />
                 <input type="hidden" name="_template" value="table" />
+                <input type="hidden" name="_next" value="" />
                 <div
                   aria-hidden="true"
                   className="absolute -left-[9999px] h-px w-px overflow-hidden"
@@ -257,6 +281,14 @@ export default function Contact() {
                   )}
                 </button>
               </form>
+              <iframe
+                name="lemamar-contact-response"
+                title="Contact form response"
+                aria-hidden="true"
+                tabIndex={-1}
+                onLoad={handleFormResponse}
+                className="absolute h-0 w-0 border-0"
+              />
 
               <p className="mt-5 text-xs leading-5 text-jaguar-ash">
                 Messages are delivered to yared1357@gmail.com through FormSubmit. For the first message,
