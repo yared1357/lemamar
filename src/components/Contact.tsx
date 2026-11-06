@@ -1,16 +1,76 @@
+import { useRef, useState, type FormEvent } from 'react';
 import {
   Facebook,
+  LoaderCircle,
   MapPin,
   MessageCircle,
   MessageSquareText,
   Music2,
   Navigation,
   Phone,
+  Send,
 } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { siteConfig } from '@/config/site';
 
 export default function Contact() {
+  const isSubmitting = useRef(false);
+  const [status, setStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
+
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    if (isSubmitting.current) return;
+
+    const form = event.currentTarget;
+    const phone = form.elements.namedItem('phone');
+    if (phone instanceof HTMLInputElement) {
+      const digitCount = phone.value.replace(/\D/g, '').length;
+      if (
+        !/^[+0-9().\s-]{7,25}$/.test(phone.value.trim()) ||
+        digitCount < 7 ||
+        digitCount > 15
+      ) {
+        phone.setCustomValidity('Enter a phone number with 7 to 15 digits.');
+        phone.reportValidity();
+        phone.setCustomValidity('');
+        return;
+      }
+    }
+
+    isSubmitting.current = true;
+    setStatus('submitting');
+
+    try {
+      const response = await fetch(siteConfig.formSubmitUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+        },
+        body: JSON.stringify(Object.fromEntries(new FormData(form).entries())),
+      });
+      const result: unknown = await response.json();
+      const responseBody =
+        typeof result === 'object' && result !== null
+          ? (result as { success?: boolean | string })
+          : null;
+
+      if (
+        !response.ok ||
+        (responseBody?.success !== true && responseBody?.success !== 'true')
+      ) {
+        throw new Error('Submission was not accepted.');
+      }
+
+      form.reset();
+      setStatus('success');
+    } catch {
+      setStatus('error');
+    } finally {
+      isSubmitting.current = false;
+    }
+  };
+
   return (
     <section
       id="contact"
@@ -26,9 +86,19 @@ export default function Contact() {
       />
       <div className="max-w-7xl mx-auto">
         <div className="mb-10 text-center lg:mb-14">
-          <h2 className="font-display text-4xl font-bold uppercase leading-tight text-jaguar-ink md:text-5xl lg:text-6xl">
-            Get in <span className="text-gradient-red">touch</span>
+          <div className="mb-4 flex items-center justify-center gap-3">
+            <div className="h-px w-10 bg-jaguar-gold" />
+            <span className="text-xs font-semibold uppercase tracking-[0.3em] text-jaguar-gold-dark">
+              Lemamar Boxing
+            </span>
+            <div className="h-px w-10 bg-jaguar-gold" />
+          </div>
+          <h2 className="font-display text-3xl font-bold uppercase leading-tight text-jaguar-ink md:text-5xl lg:text-6xl">
+            Join the <span className="text-gradient-red">Jaguar Boxing Team</span>
           </h2>
+          <p className="mx-auto mt-4 max-w-2xl text-sm text-jaguar-slate md:text-base">
+            Ready to train? Send us a message and Mesfin Biru’s team will help you take the next step.
+          </p>
         </div>
 
         <div className="mx-auto grid max-w-6xl gap-6 lg:grid-cols-[1.05fr_0.95fr] lg:gap-8">
@@ -37,87 +107,209 @@ export default function Contact() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: '-50px' }}
             transition={{ duration: 0.55 }}
-            className="relative flex min-h-[360px] flex-col overflow-hidden rounded-[2rem] border border-white/10 bg-[radial-gradient(ellipse_at_top_right,_rgba(212,175,55,0.22),_transparent_44%),linear-gradient(145deg,#191920_0%,#252530_60%,#17171e_100%)] p-7 text-white shadow-2xl shadow-black/15 sm:min-h-[390px] sm:p-10 lg:p-12"
+            className="relative overflow-hidden rounded-[2rem] border border-jaguar-line bg-white shadow-xl shadow-jaguar-ink/5"
           >
-            <div
-              aria-hidden="true"
-              className="pointer-events-none absolute -bottom-24 -right-12 h-72 w-72 rounded-full border border-jaguar-gold/15"
-            >
-              <div className="absolute inset-5 rounded-full border border-white/5" />
-              <div className="absolute inset-12 rounded-full border border-white/5" />
+            <div className="relative overflow-hidden bg-[radial-gradient(ellipse_at_top_right,_rgba(212,175,55,0.2),_transparent_45%),linear-gradient(135deg,#17171e_0%,#252530_55%,#17171e_100%)] px-6 py-7 text-white sm:px-9">
+              <div
+                aria-hidden="true"
+                className="pointer-events-none absolute -right-16 -top-24 h-56 w-56 rounded-full border border-jaguar-gold/15"
+              >
+                <div className="absolute inset-5 rounded-full border border-white/10" />
+                <div className="absolute inset-10 rounded-full border border-jaguar-red/20" />
+              </div>
+              <div className="relative">
+                <p className="text-[10px] font-bold uppercase tracking-[0.24em] text-jaguar-gold-light">
+                  Start your boxing journey
+                </p>
+                <h3 className="mt-2 font-display text-2xl font-bold uppercase sm:text-3xl">
+                  Get in touch
+                </h3>
+                <p className="mt-2 max-w-md text-sm leading-6 text-white/70">
+                  Tell us how to reach you and what you’d like to know. We’ll be in touch soon.
+                </p>
+              </div>
             </div>
-            <div className="relative z-10 flex flex-1 flex-col items-center text-center">
-              <img
-                src="/mesfin-biru-boxing-emblem.png"
-                alt=""
-                className="mb-5 h-16 w-16 rounded-2xl border border-jaguar-gold/40 bg-white/5 object-contain p-1.5 shadow-lg shadow-jaguar-gold/10"
-              />
-              <h3 className="max-w-lg font-display text-3xl font-bold uppercase leading-[1.08] sm:text-4xl lg:text-5xl">
-                Ready to <span className="text-gradient-gold">train?</span>
-              </h3>
-              <p className="mt-3 max-w-md text-sm leading-6 text-white/65 sm:text-base">
-                Call or message us to get started.
+            <div className="p-6 sm:p-9">
+              <form
+                onSubmit={handleSubmit}
+                aria-busy={status === 'submitting'}
+                className="space-y-5"
+              >
+                <input type="hidden" name="_subject" value="New Contact Message - Lemamar Boxing" />
+                <input type="hidden" name="_template" value="table" />
+                <div
+                  aria-hidden="true"
+                  className="absolute -left-[9999px] h-px w-px overflow-hidden"
+                >
+                  <label htmlFor="contact-website">Leave this field empty</label>
+                  <input
+                    id="contact-website"
+                    type="text"
+                    name="_honey"
+                    tabIndex={-1}
+                    autoComplete="off"
+                  />
+                </div>
+
+                <div className="grid gap-5 sm:grid-cols-2">
+                  <div>
+                    <label htmlFor="contact-name" className="mb-2 block text-sm font-semibold text-jaguar-ink">
+                      Full Name <span className="text-jaguar-red" aria-hidden="true">*</span>
+                    </label>
+                    <input
+                      id="contact-name"
+                      name="name"
+                      type="text"
+                      autoComplete="name"
+                      minLength={2}
+                      maxLength={100}
+                      required
+                      placeholder="Your full name"
+                      className="w-full rounded-xl border border-jaguar-line bg-jaguar-cream/60 px-4 py-3 text-sm text-jaguar-ink outline-none transition placeholder:text-jaguar-ash focus:border-jaguar-red focus:ring-4 focus:ring-jaguar-red/10"
+                    />
+                  </div>
+                  <div>
+                    <label htmlFor="contact-phone" className="mb-2 block text-sm font-semibold text-jaguar-ink">
+                      Phone Number <span className="text-jaguar-red" aria-hidden="true">*</span>
+                    </label>
+                    <input
+                      id="contact-phone"
+                      name="phone"
+                      type="tel"
+                      autoComplete="tel"
+                      inputMode="tel"
+                      minLength={7}
+                      maxLength={25}
+                      required
+                      placeholder="+251 9XX XXX XXX"
+                      className="w-full rounded-xl border border-jaguar-line bg-jaguar-cream/60 px-4 py-3 text-sm text-jaguar-ink outline-none transition placeholder:text-jaguar-ash focus:border-jaguar-red focus:ring-4 focus:ring-jaguar-red/10"
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <label htmlFor="contact-email" className="mb-2 block text-sm font-semibold text-jaguar-ink">
+                    Email Address <span className="font-normal text-jaguar-ash">(optional)</span>
+                  </label>
+                  <input
+                    id="contact-email"
+                    name="email"
+                    type="email"
+                    autoComplete="email"
+                    maxLength={254}
+                    placeholder="you@example.com"
+                    className="w-full rounded-xl border border-jaguar-line bg-jaguar-cream/60 px-4 py-3 text-sm text-jaguar-ink outline-none transition placeholder:text-jaguar-ash focus:border-jaguar-red focus:ring-4 focus:ring-jaguar-red/10"
+                  />
+                </div>
+
+                <div>
+                  <label htmlFor="contact-message" className="mb-2 block text-sm font-semibold text-jaguar-ink">
+                    Message <span className="text-jaguar-red" aria-hidden="true">*</span>
+                  </label>
+                  <textarea
+                    id="contact-message"
+                    name="message"
+                    rows={4}
+                    minLength={8}
+                    maxLength={2000}
+                    required
+                    placeholder="Tell us what you’d like to know about training..."
+                    className="w-full resize-y rounded-xl border border-jaguar-line bg-jaguar-cream/60 px-4 py-3 text-sm text-jaguar-ink outline-none transition placeholder:text-jaguar-ash focus:border-jaguar-red focus:ring-4 focus:ring-jaguar-red/10"
+                  />
+                </div>
+
+                {status === 'success' && (
+                  <div
+                    role="status"
+                    className="rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm font-medium leading-6 text-emerald-800"
+                  >
+                    Your registration request has been received! Mesfin Biru’s team will contact you soon.
+                  </div>
+                )}
+                {status === 'error' && (
+                  <div
+                    role="alert"
+                    className="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm leading-6 text-red-800"
+                  >
+                    We couldn’t send your message right now. Please try again or call the gym at{' '}
+                    <a className="font-semibold underline" href={siteConfig.telUrl}>
+                      {siteConfig.phoneIntl}
+                    </a>
+                    .
+                  </div>
+                )}
+
+                <button
+                  type="submit"
+                  disabled={status === 'submitting'}
+                  className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-jaguar-red to-jaguar-red-dark px-5 py-3.5 text-sm font-bold uppercase tracking-wider text-white shadow-lg shadow-jaguar-red/20 transition hover:brightness-110 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-jaguar-red disabled:cursor-not-allowed disabled:opacity-70 sm:w-auto sm:min-w-48"
+                >
+                  {status === 'submitting' ? (
+                    <>
+                      <LoaderCircle size={18} className="animate-spin" aria-hidden="true" />
+                      Sending...
+                    </>
+                  ) : (
+                    <>
+                      Send message
+                      <Send size={17} aria-hidden="true" />
+                    </>
+                  )}
+                </button>
+              </form>
+
+              <p className="mt-5 text-xs leading-5 text-jaguar-ash">
+                Messages are delivered to yared1357@gmail.com through FormSubmit. For the first message,
+                confirm the activation email FormSubmit sends to this inbox.
               </p>
 
-              <div className="mt-7 flex items-center justify-center gap-3">
+              <div className="mt-6 flex flex-wrap items-center justify-between gap-4 border-t border-jaguar-line pt-5">
                 <a
                   href={siteConfig.telUrl}
-                  aria-label="Call the gym"
-                  title="Call the gym"
-                  className="relative flex h-11 w-11 cursor-pointer items-center justify-center rounded-full bg-jaguar-red text-white shadow-lg shadow-jaguar-red/30 transition-transform duration-200 hover:scale-110"
-                >
-                  <span className="absolute inset-0 rounded-full bg-jaguar-red animate-pulse-ring" />
-                  <Phone size={20} className="relative z-10" />
-                </a>
-                <a
-                  href={`sms:${siteConfig.phoneIntl}`}
-                  aria-label="Send a text message"
-                  title="Text us"
-                  className="flex h-11 w-11 cursor-pointer items-center justify-center rounded-full border border-jaguar-gold/50 bg-white/5 text-jaguar-gold-light transition-all duration-200 hover:scale-110 hover:border-jaguar-gold hover:bg-white/10"
-                >
-                  <MessageSquareText size={20} />
-                </a>
-                <a
-                  href={siteConfig.whatsappUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label="Chat on WhatsApp"
-                  title="WhatsApp"
-                  className="flex h-11 w-11 cursor-pointer items-center justify-center rounded-full border border-jaguar-gold/50 bg-white/5 text-jaguar-gold-light transition-all duration-200 hover:scale-110 hover:border-jaguar-gold hover:bg-white/10"
-                >
-                  <MessageCircle size={20} />
-                </a>
-                <a
-                  href={siteConfig.social.tiktok.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label="Visit TikTok"
-                  title="TikTok"
-                  className="flex h-11 w-11 cursor-pointer items-center justify-center rounded-full border border-jaguar-gold/40 bg-white/5 text-white transition-all duration-200 hover:scale-110 hover:border-jaguar-gold hover:bg-white/10"
-                >
-                  <Music2 size={20} />
-                </a>
-                <a
-                  href={siteConfig.social.facebook.url}
-                  aria-label="Visit Facebook"
-                  title="Facebook"
-                  className="flex h-11 w-11 cursor-pointer items-center justify-center rounded-full border border-jaguar-gold/40 bg-white/5 text-white transition-all duration-200 hover:scale-110 hover:border-jaguar-gold hover:bg-white/10"
-                >
-                  <Facebook size={20} />
-                </a>
-              </div>
-
-              <div className="mt-auto w-full border-t border-white/10 pt-5">
-                <a
-                  href={siteConfig.telUrl}
-                  className="group inline-flex cursor-pointer items-center justify-center gap-3 transition-transform duration-200 hover:scale-105"
+                  className="group inline-flex items-center gap-2 text-sm font-semibold text-jaguar-ink transition-colors hover:text-jaguar-red"
                   dir="ltr"
                 >
-                  <span className="text-xs font-bold uppercase tracking-[0.16em] text-gradient-gold">Call us</span>
-                  <span className="text-sm font-semibold text-white/90 transition-colors group-hover:text-jaguar-gold-light">
-                    {siteConfig.phoneIntl}
-                  </span>
+                  <Phone size={16} className="text-jaguar-red" />
+                  {siteConfig.phoneIntl}
                 </a>
+                <div className="flex items-center gap-2">
+                  <a
+                    href={`sms:${siteConfig.phoneIntl}`}
+                    aria-label="Send a text message"
+                    title="Text us"
+                    className="flex h-9 w-9 items-center justify-center rounded-full border border-jaguar-line text-jaguar-slate transition-colors hover:border-jaguar-gold hover:text-jaguar-red"
+                  >
+                    <MessageSquareText size={17} />
+                  </a>
+                  <a
+                    href={siteConfig.whatsappUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="Chat on WhatsApp"
+                    title="WhatsApp"
+                    className="flex h-9 w-9 items-center justify-center rounded-full border border-jaguar-line text-jaguar-slate transition-colors hover:border-jaguar-gold hover:text-jaguar-red"
+                  >
+                    <MessageCircle size={17} />
+                  </a>
+                  <a
+                    href={siteConfig.social.tiktok.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="Visit TikTok"
+                    title="TikTok"
+                    className="flex h-9 w-9 items-center justify-center rounded-full border border-jaguar-line text-jaguar-slate transition-colors hover:border-jaguar-gold hover:text-jaguar-red"
+                  >
+                    <Music2 size={17} />
+                  </a>
+                  <a
+                    href={siteConfig.social.facebook.url}
+                    aria-label="Visit Facebook"
+                    title="Facebook"
+                    className="flex h-9 w-9 items-center justify-center rounded-full border border-jaguar-line text-jaguar-slate transition-colors hover:border-jaguar-gold hover:text-jaguar-red"
+                  >
+                    <Facebook size={17} />
+                  </a>
+                </div>
               </div>
             </div>
           </motion.div>
@@ -140,7 +332,7 @@ export default function Contact() {
               />
               <span className="pointer-events-none absolute left-4 top-4 inline-flex items-center gap-2 rounded-full border border-white/60 bg-jaguar-dark/85 px-3 py-2 text-[10px] font-bold uppercase tracking-[0.16em] text-white shadow-lg backdrop-blur-md">
                 <MapPin size={14} className="text-jaguar-gold-light" />
-                {siteConfig.shortName}
+                Lemamar Boxing
               </span>
             </div>
             <div className="relative overflow-hidden p-6 sm:p-8">
