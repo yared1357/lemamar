@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@emailjs/browser": "^5.0.3",
+    "@formspree/react": "^3.0.0",
     "@supabase/supabase-js": "^2.57.4",
     "framer-motion": "^14.8.0",
     "lucide-react": "^0.446.0",

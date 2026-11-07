@@ -1,5 +1,5 @@
 import { useRef, useState, type FormEvent } from 'react';
-import emailjs from '@emailjs/browser';
+import { useForm, ValidationError } from '@formspree/react';
 import {
   Facebook,
   LoaderCircle,
@@ -14,22 +14,26 @@ import {
 import { motion } from 'framer-motion';
 import { siteConfig } from '@/config/site';
 
-const emailJsConfig = {
-  serviceId: import.meta.env.VITE_EMAILJS_SERVICE_ID,
-  templateId: import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
-  publicKey: import.meta.env.VITE_EMAILJS_PUBLIC_KEY,
-};
+const FORMSPREE_FORM_ID = import.meta.env.VITE_FORMSPREE_FORM_ID ?? 'xvkknarv';
 
 export default function Contact() {
   const isSubmittingRef = useRef(false);
-  const [status, setStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
+  const [state, handleSubmit] = useForm(FORMSPREE_FORM_ID);
+  const [status, setStatus] = useState<'idle' | 'error'>('idle');
   const [errorMessage, setErrorMessage] = useState('');
 
-  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+  const handleFormSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    if (isSubmittingRef.current) return;
+    if (isSubmittingRef.current || state.submitting) return;
 
     const form = event.currentTarget;
+    const honeyPot = form.elements.namedItem('_gotcha');
+    if (honeyPot instanceof HTMLInputElement && honeyPot.value.trim()) {
+      setStatus('error');
+      setErrorMessage('Your message could not be submitted.');
+      return;
+    }
+
     const phone = form.elements.namedItem('phone');
     if (phone instanceof HTMLInputElement) {
       const digitCount = phone.value.replace(/\D/g, '').length;
@@ -45,44 +49,22 @@ export default function Contact() {
       }
     }
 
-    const { serviceId, templateId, publicKey } = emailJsConfig;
-    if (!serviceId || !templateId || !publicKey) {
-      setErrorMessage('The registration form is not configured yet. Please call the gym to register.');
-      setStatus('error');
+    if (!form.checkValidity()) {
+      form.reportValidity();
       return;
     }
 
     isSubmittingRef.current = true;
-    setStatus('submitting');
+    setStatus('idle');
     setErrorMessage('');
 
-    const formData = new FormData(form);
-    const templateParams = {
-      name: String(formData.get('name') ?? ''),
-      age: String(formData.get('age') ?? ''),
-      phone: String(formData.get('phone') ?? ''),
-      email: String(formData.get('email') ?? ''),
-      reply_to: String(formData.get('email') ?? ''),
-      gender: String(formData.get('gender') ?? ''),
-      training_experience: String(formData.get('training_experience') ?? ''),
-      preferred_training_time: String(formData.get('preferred_training_time') ?? ''),
-      message: String(formData.get('message') ?? ''),
-    };
-
     try {
-      const response = await emailjs.send(serviceId, templateId, templateParams, { publicKey });
-      if (response.status !== 200) {
-        throw new Error(`EmailJS returned status ${response.status}.`);
-      }
-
+      await handleSubmit(event);
       form.reset();
-      setStatus('success');
     } catch (error) {
-      console.error('EmailJS registration submission failed.', error);
-      setErrorMessage(
-        'We couldn’t send your registration right now. Please try again or call the gym.'
-      );
+      console.error('Formspree registration submission failed.', error);
       setStatus('error');
+      setErrorMessage('We couldn’t send your registration right now. Please try again or call the gym.');
     } finally {
       isSubmittingRef.current = false;
     }
@@ -141,203 +123,213 @@ export default function Contact() {
                  </div>
             </div>
             <div className="p-6 sm:p-9">
-              <form
-                onSubmit={handleSubmit}
-                onChange={() => {
-                  if (status !== 'submitting') {
-                    setStatus('idle');
-                    setErrorMessage('');
-                  }
-                }}
-                aria-busy={status === 'submitting'}
-                className="space-y-5"
-              >
+              {state.succeeded ? (
                 <div
-                  aria-hidden="true"
-                  className="absolute -left-[9999px] h-px w-px overflow-hidden"
+                  role="status"
+                  className="rounded-2xl border border-emerald-200 bg-emerald-50 px-4 py-5 text-sm font-medium leading-6 text-emerald-800"
                 >
-                  <label htmlFor="contact-website">Leave this field empty</label>
-                  <input
-                    id="contact-website"
-                    type="text"
-                    name="_honey"
-                    tabIndex={-1}
-                    autoComplete="off"
-                  />
+                  Your registration request has been received! Mesfin Biru&apos;s team will contact you soon.
+                  <div className="mt-3 flex flex-wrap items-center gap-2 text-xs font-semibold uppercase tracking-[0.12em] text-emerald-900/80">
+                    <Phone size={14} className="text-emerald-700" />
+                    Need immediate help? Call {siteConfig.phoneIntl}
+                  </div>
                 </div>
-
-                <div className="grid gap-5 sm:grid-cols-2">
-                  <div>
-                    <label htmlFor="contact-name" className="mb-2 block text-sm font-semibold text-jaguar-ink">
-                      Full Name <span className="text-jaguar-red" aria-hidden="true">*</span>
-                    </label>
+              ) : (
+                <form
+                  onSubmit={handleFormSubmit}
+                  onChange={() => {
+                    if (status === 'error') {
+                      setStatus('idle');
+                      setErrorMessage('');
+                    }
+                  }}
+                  aria-busy={state.submitting}
+                  className="space-y-5"
+                >
+                  <div
+                    aria-hidden="true"
+                    className="absolute -left-[9999px] h-px w-px overflow-hidden"
+                  >
+                    <label htmlFor="contact-website">Leave this field empty</label>
                     <input
-                      id="contact-name"
-                      name="name"
+                      id="contact-website"
                       type="text"
-                      autoComplete="name"
-                      minLength={2}
-                      maxLength={100}
-                      required
-                      placeholder="Your full name"
-                      className="w-full rounded-xl border border-jaguar-line bg-jaguar-cream/60 px-4 py-3 text-sm text-jaguar-ink outline-none transition placeholder:text-jaguar-ash focus:border-jaguar-red focus:ring-4 focus:ring-jaguar-red/10"
+                      name="_gotcha"
+                      tabIndex={-1}
+                      autoComplete="off"
                     />
                   </div>
+
+                  <div className="grid gap-5 sm:grid-cols-2">
+                    <div>
+                      <label htmlFor="contact-name" className="mb-2 block text-sm font-semibold text-jaguar-ink">
+                        Full Name <span className="text-jaguar-red" aria-hidden="true">*</span>
+                      </label>
+                      <input
+                        id="contact-name"
+                        name="name"
+                        type="text"
+                        autoComplete="name"
+                        minLength={2}
+                        maxLength={100}
+                        required
+                        placeholder="Your full name"
+                        className="w-full rounded-xl border border-jaguar-line bg-jaguar-cream/60 px-4 py-3 text-sm text-jaguar-ink outline-none transition placeholder:text-jaguar-ash focus:border-jaguar-red focus:ring-4 focus:ring-jaguar-red/10"
+                      />
+                      <ValidationError prefix="Name" field="name" errors={state.errors} className="mt-2 block text-xs text-red-700" />
+                    </div>
+                    <div>
+                      <label htmlFor="contact-phone" className="mb-2 block text-sm font-semibold text-jaguar-ink">
+                        Phone Number <span className="text-jaguar-red" aria-hidden="true">*</span>
+                      </label>
+                      <input
+                        id="contact-phone"
+                        name="phone"
+                        type="tel"
+                        autoComplete="tel"
+                        inputMode="tel"
+                        minLength={7}
+                        maxLength={25}
+                        required
+                        placeholder="+251 9XX XXX XXX"
+                        className="w-full rounded-xl border border-jaguar-line bg-jaguar-cream/60 px-4 py-3 text-sm text-jaguar-ink outline-none transition placeholder:text-jaguar-ash focus:border-jaguar-red focus:ring-4 focus:ring-jaguar-red/10"
+                      />
+                      <ValidationError prefix="Phone" field="phone" errors={state.errors} className="mt-2 block text-xs text-red-700" />
+                    </div>
+                  </div>
+
+                  <div className="grid gap-5 sm:grid-cols-2">
+                    <div>
+                      <label htmlFor="contact-age" className="mb-2 block text-sm font-semibold text-jaguar-ink">
+                        Age <span className="text-jaguar-red" aria-hidden="true">*</span>
+                      </label>
+                      <input
+                        id="contact-age"
+                        name="age"
+                        type="number"
+                        inputMode="numeric"
+                        min={1}
+                        max={120}
+                        required
+                        placeholder="Your age"
+                        className="w-full rounded-xl border border-jaguar-line bg-jaguar-cream/60 px-4 py-3 text-sm text-jaguar-ink outline-none transition placeholder:text-jaguar-ash focus:border-jaguar-red focus:ring-4 focus:ring-jaguar-red/10"
+                      />
+                      <ValidationError prefix="Age" field="age" errors={state.errors} className="mt-2 block text-xs text-red-700" />
+                    </div>
+                    <div>
+                      <label htmlFor="contact-gender" className="mb-2 block text-sm font-semibold text-jaguar-ink">
+                        Gender <span className="font-normal text-jaguar-ash">(optional)</span>
+                      </label>
+                      <select
+                        id="contact-gender"
+                        name="gender"
+                        defaultValue=""
+                        className="w-full rounded-xl border border-jaguar-line bg-jaguar-cream/60 px-4 py-3 text-sm text-jaguar-ink outline-none transition focus:border-jaguar-red focus:ring-4 focus:ring-jaguar-red/10"
+                      >
+                        <option value="">Select if you wish</option>
+                        <option value="Female">Female</option>
+                        <option value="Male">Male</option>
+                        <option value="Prefer not to say">Prefer not to say</option>
+                      </select>
+                    </div>
+                  </div>
+
                   <div>
-                    <label htmlFor="contact-phone" className="mb-2 block text-sm font-semibold text-jaguar-ink">
-                      Phone Number <span className="text-jaguar-red" aria-hidden="true">*</span>
+                    <label htmlFor="contact-email" className="mb-2 block text-sm font-semibold text-jaguar-ink">
+                      Email Address <span className="font-normal text-jaguar-ash">(optional)</span>
                     </label>
                     <input
-                      id="contact-phone"
-                      name="phone"
-                      type="tel"
-                      autoComplete="tel"
-                      inputMode="tel"
-                      minLength={7}
-                      maxLength={25}
-                      required
-                      placeholder="+251 9XX XXX XXX"
+                      id="contact-email"
+                      name="email"
+                      type="email"
+                      autoComplete="email"
+                      maxLength={254}
+                      placeholder="you@example.com"
                       className="w-full rounded-xl border border-jaguar-line bg-jaguar-cream/60 px-4 py-3 text-sm text-jaguar-ink outline-none transition placeholder:text-jaguar-ash focus:border-jaguar-red focus:ring-4 focus:ring-jaguar-red/10"
                     />
+                    <ValidationError prefix="Email" field="email" errors={state.errors} className="mt-2 block text-xs text-red-700" />
                   </div>
-                </div>
 
-                <div className="grid gap-5 sm:grid-cols-2">
+                  <div className="grid gap-5 sm:grid-cols-2">
+                    <div>
+                      <label htmlFor="contact-experience" className="mb-2 block text-sm font-semibold text-jaguar-ink">
+                        Training Experience <span className="font-normal text-jaguar-ash">(optional)</span>
+                      </label>
+                      <select
+                        id="contact-experience"
+                        name="training_experience"
+                        defaultValue=""
+                        className="w-full rounded-xl border border-jaguar-line bg-jaguar-cream/60 px-4 py-3 text-sm text-jaguar-ink outline-none transition focus:border-jaguar-red focus:ring-4 focus:ring-jaguar-red/10"
+                      >
+                        <option value="">Choose your level</option>
+                        <option value="Beginner">Beginner</option>
+                        <option value="Intermediate">Intermediate</option>
+                        <option value="Advanced">Advanced</option>
+                      </select>
+                    </div>
+                    <div>
+                      <label htmlFor="contact-time" className="mb-2 block text-sm font-semibold text-jaguar-ink">
+                        Preferred Training Time <span className="font-normal text-jaguar-ash">(optional)</span>
+                      </label>
+                      <select
+                        id="contact-time"
+                        name="preferred_training_time"
+                        defaultValue=""
+                        className="w-full rounded-xl border border-jaguar-line bg-jaguar-cream/60 px-4 py-3 text-sm text-jaguar-ink outline-none transition focus:border-jaguar-red focus:ring-4 focus:ring-jaguar-red/10"
+                      >
+                        <option value="">Choose a time</option>
+                        <option value="Morning">Morning</option>
+                        <option value="Afternoon">Afternoon</option>
+                        <option value="Evening">Evening</option>
+                      </select>
+                    </div>
+                  </div>
+
                   <div>
-                    <label htmlFor="contact-age" className="mb-2 block text-sm font-semibold text-jaguar-ink">
-                      Age <span className="text-jaguar-red" aria-hidden="true">*</span>
+                    <label htmlFor="contact-message" className="mb-2 block text-sm font-semibold text-jaguar-ink">
+                      Additional Message <span className="font-normal text-jaguar-ash">(optional)</span>
                     </label>
-                    <input
-                      id="contact-age"
-                      name="age"
-                      type="number"
-                      inputMode="numeric"
-                      min={1}
-                      max={120}
-                      required
-                      placeholder="Your age"
-                      className="w-full rounded-xl border border-jaguar-line bg-jaguar-cream/60 px-4 py-3 text-sm text-jaguar-ink outline-none transition placeholder:text-jaguar-ash focus:border-jaguar-red focus:ring-4 focus:ring-jaguar-red/10"
+                    <textarea
+                      id="contact-message"
+                      name="message"
+                      rows={4}
+                      maxLength={2000}
+                      placeholder="Tell us what you’d like to know about training..."
+                      className="w-full resize-y rounded-xl border border-jaguar-line bg-jaguar-cream/60 px-4 py-3 text-sm text-jaguar-ink outline-none transition placeholder:text-jaguar-ash focus:border-jaguar-red focus:ring-4 focus:ring-jaguar-red/10"
                     />
+                    <ValidationError prefix="Message" field="message" errors={state.errors} className="mt-2 block text-xs text-red-700" />
                   </div>
-                  <div>
-                    <label htmlFor="contact-gender" className="mb-2 block text-sm font-semibold text-jaguar-ink">
-                      Gender <span className="font-normal text-jaguar-ash">(optional)</span>
-                    </label>
-                    <select
-                      id="contact-gender"
-                      name="gender"
-                      defaultValue=""
-                      className="w-full rounded-xl border border-jaguar-line bg-jaguar-cream/60 px-4 py-3 text-sm text-jaguar-ink outline-none transition focus:border-jaguar-red focus:ring-4 focus:ring-jaguar-red/10"
+
+                  <button
+                    type="submit"
+                    disabled={state.submitting || isSubmittingRef.current}
+                    className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-jaguar-red to-jaguar-red-dark px-5 py-3.5 text-sm font-bold uppercase tracking-wider text-white shadow-lg shadow-jaguar-red/20 transition hover:brightness-110 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-jaguar-red disabled:cursor-not-allowed disabled:opacity-70 sm:w-auto sm:min-w-48"
+                  >
+                    {state.submitting ? (
+                      <>
+                        <LoaderCircle size={18} className="animate-spin" aria-hidden="true" />
+                        Sending...
+                      </>
+                    ) : (
+                      <>
+                        Send message
+                        <Send size={17} aria-hidden="true" />
+                      </>
+                    )}
+                  </button>
+                  {status === 'error' && (
+                    <p
+                      role="alert"
+                      className="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm leading-6 text-red-800"
                     >
-                      <option value="">Select if you wish</option>
-                      <option value="Female">Female</option>
-                      <option value="Male">Male</option>
-                      <option value="Prefer not to say">Prefer not to say</option>
-                    </select>
-                  </div>
-                </div>
-
-                <div>
-                  <label htmlFor="contact-email" className="mb-2 block text-sm font-semibold text-jaguar-ink">
-                    Email Address <span className="font-normal text-jaguar-ash">(optional)</span>
-                  </label>
-                  <input
-                    id="contact-email"
-                    name="email"
-                    type="email"
-                    autoComplete="email"
-                    maxLength={254}
-                    placeholder="you@example.com"
-                    className="w-full rounded-xl border border-jaguar-line bg-jaguar-cream/60 px-4 py-3 text-sm text-jaguar-ink outline-none transition placeholder:text-jaguar-ash focus:border-jaguar-red focus:ring-4 focus:ring-jaguar-red/10"
-                  />
-                </div>
-
-                <div className="grid gap-5 sm:grid-cols-2">
-                  <div>
-                    <label htmlFor="contact-experience" className="mb-2 block text-sm font-semibold text-jaguar-ink">
-                      Training Experience <span className="font-normal text-jaguar-ash">(optional)</span>
-                    </label>
-                    <select
-                      id="contact-experience"
-                      name="training_experience"
-                      defaultValue=""
-                      className="w-full rounded-xl border border-jaguar-line bg-jaguar-cream/60 px-4 py-3 text-sm text-jaguar-ink outline-none transition focus:border-jaguar-red focus:ring-4 focus:ring-jaguar-red/10"
-                    >
-                      <option value="">Choose your level</option>
-                      <option value="Beginner">Beginner</option>
-                      <option value="Intermediate">Intermediate</option>
-                      <option value="Advanced">Advanced</option>
-                    </select>
-                  </div>
-                  <div>
-                    <label htmlFor="contact-time" className="mb-2 block text-sm font-semibold text-jaguar-ink">
-                      Preferred Training Time <span className="font-normal text-jaguar-ash">(optional)</span>
-                    </label>
-                    <select
-                      id="contact-time"
-                      name="preferred_training_time"
-                      defaultValue=""
-                      className="w-full rounded-xl border border-jaguar-line bg-jaguar-cream/60 px-4 py-3 text-sm text-jaguar-ink outline-none transition focus:border-jaguar-red focus:ring-4 focus:ring-jaguar-red/10"
-                    >
-                      <option value="">Choose a time</option>
-                      <option value="Morning">Morning</option>
-                      <option value="Afternoon">Afternoon</option>
-                      <option value="Evening">Evening</option>
-                    </select>
-                  </div>
-                </div>
-
-                <div>
-                  <label htmlFor="contact-message" className="mb-2 block text-sm font-semibold text-jaguar-ink">
-                    Additional Message <span className="font-normal text-jaguar-ash">(optional)</span>
-                  </label>
-                  <textarea
-                    id="contact-message"
-                    name="message"
-                    rows={4}
-                    maxLength={2000}
-                    placeholder="Tell us what you’d like to know about training..."
-                    className="w-full resize-y rounded-xl border border-jaguar-line bg-jaguar-cream/60 px-4 py-3 text-sm text-jaguar-ink outline-none transition placeholder:text-jaguar-ash focus:border-jaguar-red focus:ring-4 focus:ring-jaguar-red/10"
-                  />
-                </div>
-
-                <button
-                  type="submit"
-                  disabled={status === 'submitting'}
-                  className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-jaguar-red to-jaguar-red-dark px-5 py-3.5 text-sm font-bold uppercase tracking-wider text-white shadow-lg shadow-jaguar-red/20 transition hover:brightness-110 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-jaguar-red disabled:cursor-not-allowed disabled:opacity-70 sm:w-auto sm:min-w-48"
-                >
-                  {status === 'submitting' ? (
-                    <>
-                      <LoaderCircle size={18} className="animate-spin" aria-hidden="true" />
-                      Sending...
-                    </>
-                  ) : (
-                    <>
-                      Send message
-                      <Send size={17} aria-hidden="true" />
-                    </>
+                      {errorMessage}{' '}
+                      <a className="font-semibold underline" href={siteConfig.telUrl}>
+                        Call {siteConfig.phoneIntl}
+                      </a>
+                    </p>
                   )}
-                </button>
-                {status === 'success' && (
-                  <p
-                    role="status"
-                    className="rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm font-medium leading-6 text-emerald-800"
-                  >
-                    Your registration request has been received! Mesfin Biru’s team will contact you soon.
-                  </p>
-                )}
-                {status === 'error' && (
-                  <p
-                    role="alert"
-                    className="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm leading-6 text-red-800"
-                  >
-                    {errorMessage}{' '}
-                    <a className="font-semibold underline" href={siteConfig.telUrl}>
-                      Call {siteConfig.phoneIntl}
-                    </a>
-                  </p>
-                )}
-              </form>
+                </form>
+              )}
              
               <div className="mt-6 flex flex-wrap items-center justify-between gap-4 border-t border-jaguar-line pt-5">
                 <a
