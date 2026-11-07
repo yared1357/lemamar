@@ -1,5 +1,5 @@
 import { useRef, useState, type FormEvent } from 'react';
-import { useForm, ValidationError } from '@formspree/react';
+import { useSubmit } from '@formspree/react';
 import {
   Facebook,
   LoaderCircle,
@@ -18,13 +18,13 @@ const FORMSPREE_FORM_ID = import.meta.env.VITE_FORMSPREE_FORM_ID ?? 'xvkknarv';
 
 export default function Contact() {
   const isSubmittingRef = useRef(false);
-  const [state, handleSubmit] = useForm(FORMSPREE_FORM_ID);
-  const [status, setStatus] = useState<'idle' | 'error'>('idle');
+  const submit = useSubmit(FORMSPREE_FORM_ID);
+  const [status, setStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
   const [errorMessage, setErrorMessage] = useState('');
 
   const handleFormSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    if (isSubmittingRef.current || state.submitting) return;
+    if (isSubmittingRef.current) return;
 
     const form = event.currentTarget;
     const honeyPot = form.elements.namedItem('_gotcha');
@@ -55,16 +55,31 @@ export default function Contact() {
     }
 
     isSubmittingRef.current = true;
-    setStatus('idle');
+    setStatus('submitting');
     setErrorMessage('');
 
     try {
-      await handleSubmit(event);
+      const result = await submit(new FormData(form));
+      if (result.kind === 'error') {
+        const messages = [
+          ...result.getFormErrors().map(({ message }) => message),
+          ...result.getAllFieldErrors().flatMap(([, errors]) =>
+            errors.map(({ message }) => message)
+          ),
+        ];
+        throw new Error(messages.join(' ') || 'Formspree rejected the submission.');
+      }
+
       form.reset();
+      setStatus('success');
     } catch (error) {
       console.error('Formspree registration submission failed.', error);
       setStatus('error');
-      setErrorMessage('We couldn’t send your registration right now. Please try again or call the gym.');
+      setErrorMessage(
+        error instanceof Error && error.message
+          ? `Formspree could not accept this submission: ${error.message}`
+          : 'We couldn’t send your registration right now. Please try again or call the gym.'
+      );
     } finally {
       isSubmittingRef.current = false;
     }
@@ -123,7 +138,7 @@ export default function Contact() {
                  </div>
             </div>
             <div className="p-6 sm:p-9">
-              {state.succeeded ? (
+              {status === 'success' ? (
                 <div
                   role="status"
                   className="rounded-2xl border border-emerald-200 bg-emerald-50 px-4 py-5 text-sm font-medium leading-6 text-emerald-800"
@@ -143,7 +158,7 @@ export default function Contact() {
                       setErrorMessage('');
                     }
                   }}
-                  aria-busy={state.submitting}
+                  aria-busy={status === 'submitting'}
                   className="space-y-5"
                 >
                   <div
@@ -176,7 +191,6 @@ export default function Contact() {
                         placeholder="Your full name"
                         className="w-full rounded-xl border border-jaguar-line bg-jaguar-cream/60 px-4 py-3 text-sm text-jaguar-ink outline-none transition placeholder:text-jaguar-ash focus:border-jaguar-red focus:ring-4 focus:ring-jaguar-red/10"
                       />
-                      <ValidationError prefix="Name" field="name" errors={state.errors} className="mt-2 block text-xs text-red-700" />
                     </div>
                     <div>
                       <label htmlFor="contact-phone" className="mb-2 block text-sm font-semibold text-jaguar-ink">
@@ -194,7 +208,6 @@ export default function Contact() {
                         placeholder="+251 9XX XXX XXX"
                         className="w-full rounded-xl border border-jaguar-line bg-jaguar-cream/60 px-4 py-3 text-sm text-jaguar-ink outline-none transition placeholder:text-jaguar-ash focus:border-jaguar-red focus:ring-4 focus:ring-jaguar-red/10"
                       />
-                      <ValidationError prefix="Phone" field="phone" errors={state.errors} className="mt-2 block text-xs text-red-700" />
                     </div>
                   </div>
 
@@ -214,7 +227,6 @@ export default function Contact() {
                         placeholder="Your age"
                         className="w-full rounded-xl border border-jaguar-line bg-jaguar-cream/60 px-4 py-3 text-sm text-jaguar-ink outline-none transition placeholder:text-jaguar-ash focus:border-jaguar-red focus:ring-4 focus:ring-jaguar-red/10"
                       />
-                      <ValidationError prefix="Age" field="age" errors={state.errors} className="mt-2 block text-xs text-red-700" />
                     </div>
                     <div>
                       <label htmlFor="contact-gender" className="mb-2 block text-sm font-semibold text-jaguar-ink">
@@ -247,7 +259,6 @@ export default function Contact() {
                       placeholder="you@example.com"
                       className="w-full rounded-xl border border-jaguar-line bg-jaguar-cream/60 px-4 py-3 text-sm text-jaguar-ink outline-none transition placeholder:text-jaguar-ash focus:border-jaguar-red focus:ring-4 focus:ring-jaguar-red/10"
                     />
-                    <ValidationError prefix="Email" field="email" errors={state.errors} className="mt-2 block text-xs text-red-700" />
                   </div>
 
                   <div className="grid gap-5 sm:grid-cols-2">
@@ -297,15 +308,14 @@ export default function Contact() {
                       placeholder="Tell us what you’d like to know about training..."
                       className="w-full resize-y rounded-xl border border-jaguar-line bg-jaguar-cream/60 px-4 py-3 text-sm text-jaguar-ink outline-none transition placeholder:text-jaguar-ash focus:border-jaguar-red focus:ring-4 focus:ring-jaguar-red/10"
                     />
-                    <ValidationError prefix="Message" field="message" errors={state.errors} className="mt-2 block text-xs text-red-700" />
                   </div>
 
                   <button
                     type="submit"
-                    disabled={state.submitting || isSubmittingRef.current}
+                    disabled={status === 'submitting'}
                     className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-jaguar-red to-jaguar-red-dark px-5 py-3.5 text-sm font-bold uppercase tracking-wider text-white shadow-lg shadow-jaguar-red/20 transition hover:brightness-110 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-jaguar-red disabled:cursor-not-allowed disabled:opacity-70 sm:w-auto sm:min-w-48"
                   >
-                    {state.submitting ? (
+                    {status === 'submitting' ? (
                       <>
                         <LoaderCircle size={18} className="animate-spin" aria-hidden="true" />
                         Sending...
