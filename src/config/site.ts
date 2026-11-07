@@ -11,7 +11,7 @@ export const siteConfig = {
   whatsappUrl: 'https://wa.me/251944005758',
   telUrl: 'tel:+251944005758',
   locationAmharic:
-    'ሌማመር በኢትዮጵያ የመጀመሪያው ቦክስ ጂም ጄኔራል ውንጌት ት/ቤት ጀርባ ወደ ብርጭቆ በሚወስደው መንገድ ጠሮ አደባባይ!',
+    'ሌማመር በኢትዮዽያ የመጀመሪያው ቦክስ ጂም\nጄኔራል ውንጌት ት/ቤት ጀርባ ወደ ብርጭቆ\nበሚወስደው መንገድ ጠሮ አደባባይ',
   locationLabel: 'Addis Ababa, Ethiopia',
   description:
     'Professional boxing training center led by Mesfin Biru — The Jaguar. Building champions through strength, discipline, and speed.',

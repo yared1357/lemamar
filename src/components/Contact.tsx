@@ -1,14 +1,9 @@
-import { useRef, useState, type FormEvent } from 'react';
+import { useEffect, useRef, useState, type FormEvent } from 'react';
 import { useSubmit } from '@formspree/react';
 import {
-  Facebook,
   LoaderCircle,
   MapPin,
-  MessageCircle,
-  MessageSquareText,
-  Music2,
   Navigation,
-  Phone,
   Send,
 } from 'lucide-react';
 import { motion } from 'framer-motion';
@@ -21,6 +16,13 @@ export default function Contact() {
   const submit = useSubmit(FORMSPREE_FORM_ID);
   const [status, setStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
   const [errorMessage, setErrorMessage] = useState('');
+
+  useEffect(() => {
+    if (status !== 'success') return;
+
+    const timeoutId = window.setTimeout(() => setStatus('idle'), 4000);
+    return () => window.clearTimeout(timeoutId);
+  }, [status]);
 
   const handleFormSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -110,9 +112,6 @@ export default function Contact() {
           <h2 className="font-display text-3xl font-bold uppercase leading-tight text-jaguar-ink md:text-5xl lg:text-6xl">
             Join the <span className="text-gradient-red">Jaguar Boxing Team</span>
           </h2>
-          <p className="mx-auto mt-4 max-w-2xl text-sm text-jaguar-slate md:text-base">
-            Ready to train? Send us a message and Mesfin Biru’s team will help you take the next step.
-          </p>
         </div>
 
         <div className="mx-auto grid max-w-6xl gap-6 lg:grid-cols-[1.05fr_0.95fr] lg:gap-8">
@@ -131,49 +130,52 @@ export default function Contact() {
                 <div className="absolute inset-5 rounded-full border border-white/10" />
                 <div className="absolute inset-10 rounded-full border border-jaguar-red/20" />
               </div>
-              <div className="relative">
+              <div className="relative text-center">
                 <h3 className="mt-2 font-display text-2xl font-bold uppercase sm:text-3xl">
                   Get in touch
                 </h3>
-                 </div>
+              </div>
             </div>
             <div className="p-6 sm:p-9">
-              {status === 'success' ? (
-                <div
-                  role="status"
-                  className="rounded-2xl border border-emerald-200 bg-emerald-50 px-4 py-5 text-sm font-medium leading-6 text-emerald-800"
-                >
-                  Your registration request has been received! Mesfin Biru&apos;s team will contact you soon.
-                  <div className="mt-3 flex flex-wrap items-center gap-2 text-xs font-semibold uppercase tracking-[0.12em] text-emerald-900/80">
-                    <Phone size={14} className="text-emerald-700" />
-                    Need immediate help? Call {siteConfig.phoneIntl}
-                  </div>
-                </div>
-              ) : (
-                <form
-                  onSubmit={handleFormSubmit}
-                  onChange={() => {
-                    if (status === 'error') {
-                      setStatus('idle');
-                      setErrorMessage('');
-                    }
-                  }}
-                  aria-busy={status === 'submitting'}
-                  className="space-y-5"
-                >
-                  <div
-                    aria-hidden="true"
-                    className="absolute -left-[9999px] h-px w-px overflow-hidden"
+              <form
+                onSubmit={handleFormSubmit}
+                onChange={() => {
+                  if (status === 'error') {
+                    setStatus('idle');
+                    setErrorMessage('');
+                  }
+                }}
+                aria-busy={status === 'submitting'}
+                className="space-y-5"
+              >
+                <input
+                  type="hidden"
+                  name="_subject"
+                  value="🥊 New contact message | Lemamar Boxing"
+                />
+                {status === 'success' && (
+                  <motion.div
+                    initial={{ opacity: 0, y: -8 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    role="status"
+                    className="rounded-2xl border border-emerald-200 bg-gradient-to-r from-emerald-50 to-white px-4 py-4 text-sm font-medium leading-6 text-emerald-800 shadow-sm"
                   >
-                    <label htmlFor="contact-website">Leave this field empty</label>
-                    <input
-                      id="contact-website"
-                      type="text"
-                      name="_gotcha"
-                      tabIndex={-1}
-                      autoComplete="off"
-                    />
-                  </div>
+                    Your message was sent! The Lemamar team will be in touch soon.
+                  </motion.div>
+                )}
+                <div
+                  aria-hidden="true"
+                  className="absolute -left-[9999px] h-px w-px overflow-hidden"
+                >
+                  <label htmlFor="contact-website">Leave this field empty</label>
+                  <input
+                    id="contact-website"
+                    type="text"
+                    name="_gotcha"
+                    tabIndex={-1}
+                    autoComplete="off"
+                  />
+                </div>
 
                   <div className="grid gap-5 sm:grid-cols-2">
                     <div>
@@ -185,8 +187,7 @@ export default function Contact() {
                         name="name"
                         type="text"
                         autoComplete="name"
-                        minLength={2}
-                        maxLength={100}
+                        minLength={1}
                         required
                         placeholder="Your full name"
                         className="w-full rounded-xl border border-jaguar-line bg-jaguar-cream/60 px-4 py-3 text-sm text-jaguar-ink outline-none transition placeholder:text-jaguar-ash focus:border-jaguar-red focus:ring-4 focus:ring-jaguar-red/10"
@@ -203,46 +204,10 @@ export default function Contact() {
                         autoComplete="tel"
                         inputMode="tel"
                         minLength={7}
-                        maxLength={25}
                         required
                         placeholder="+251 9XX XXX XXX"
                         className="w-full rounded-xl border border-jaguar-line bg-jaguar-cream/60 px-4 py-3 text-sm text-jaguar-ink outline-none transition placeholder:text-jaguar-ash focus:border-jaguar-red focus:ring-4 focus:ring-jaguar-red/10"
                       />
-                    </div>
-                  </div>
-
-                  <div className="grid gap-5 sm:grid-cols-2">
-                    <div>
-                      <label htmlFor="contact-age" className="mb-2 block text-sm font-semibold text-jaguar-ink">
-                        Age <span className="text-jaguar-red" aria-hidden="true">*</span>
-                      </label>
-                      <input
-                        id="contact-age"
-                        name="age"
-                        type="number"
-                        inputMode="numeric"
-                        min={1}
-                        max={120}
-                        required
-                        placeholder="Your age"
-                        className="w-full rounded-xl border border-jaguar-line bg-jaguar-cream/60 px-4 py-3 text-sm text-jaguar-ink outline-none transition placeholder:text-jaguar-ash focus:border-jaguar-red focus:ring-4 focus:ring-jaguar-red/10"
-                      />
-                    </div>
-                    <div>
-                      <label htmlFor="contact-gender" className="mb-2 block text-sm font-semibold text-jaguar-ink">
-                        Gender <span className="font-normal text-jaguar-ash">(optional)</span>
-                      </label>
-                      <select
-                        id="contact-gender"
-                        name="gender"
-                        defaultValue=""
-                        className="w-full rounded-xl border border-jaguar-line bg-jaguar-cream/60 px-4 py-3 text-sm text-jaguar-ink outline-none transition focus:border-jaguar-red focus:ring-4 focus:ring-jaguar-red/10"
-                      >
-                        <option value="">Select if you wish</option>
-                        <option value="Female">Female</option>
-                        <option value="Male">Male</option>
-                        <option value="Prefer not to say">Prefer not to say</option>
-                      </select>
                     </div>
                   </div>
 
@@ -255,65 +220,30 @@ export default function Contact() {
                       name="email"
                       type="email"
                       autoComplete="email"
-                      maxLength={254}
                       placeholder="you@example.com"
                       className="w-full rounded-xl border border-jaguar-line bg-jaguar-cream/60 px-4 py-3 text-sm text-jaguar-ink outline-none transition placeholder:text-jaguar-ash focus:border-jaguar-red focus:ring-4 focus:ring-jaguar-red/10"
                     />
                   </div>
 
-                  <div className="grid gap-5 sm:grid-cols-2">
-                    <div>
-                      <label htmlFor="contact-experience" className="mb-2 block text-sm font-semibold text-jaguar-ink">
-                        Training Experience <span className="font-normal text-jaguar-ash">(optional)</span>
-                      </label>
-                      <select
-                        id="contact-experience"
-                        name="training_experience"
-                        defaultValue=""
-                        className="w-full rounded-xl border border-jaguar-line bg-jaguar-cream/60 px-4 py-3 text-sm text-jaguar-ink outline-none transition focus:border-jaguar-red focus:ring-4 focus:ring-jaguar-red/10"
-                      >
-                        <option value="">Choose your level</option>
-                        <option value="Beginner">Beginner</option>
-                        <option value="Intermediate">Intermediate</option>
-                        <option value="Advanced">Advanced</option>
-                      </select>
-                    </div>
-                    <div>
-                      <label htmlFor="contact-time" className="mb-2 block text-sm font-semibold text-jaguar-ink">
-                        Preferred Training Time <span className="font-normal text-jaguar-ash">(optional)</span>
-                      </label>
-                      <select
-                        id="contact-time"
-                        name="preferred_training_time"
-                        defaultValue=""
-                        className="w-full rounded-xl border border-jaguar-line bg-jaguar-cream/60 px-4 py-3 text-sm text-jaguar-ink outline-none transition focus:border-jaguar-red focus:ring-4 focus:ring-jaguar-red/10"
-                      >
-                        <option value="">Choose a time</option>
-                        <option value="Morning">Morning</option>
-                        <option value="Afternoon">Afternoon</option>
-                        <option value="Evening">Evening</option>
-                      </select>
-                    </div>
-                  </div>
-
                   <div>
                     <label htmlFor="contact-message" className="mb-2 block text-sm font-semibold text-jaguar-ink">
-                      Additional Message <span className="font-normal text-jaguar-ash">(optional)</span>
+                      Message <span className="text-jaguar-red" aria-hidden="true">*</span>
                     </label>
                     <textarea
                       id="contact-message"
                       name="message"
                       rows={4}
-                      maxLength={2000}
+                      minLength={1}
+                      required
                       placeholder="Tell us what you’d like to know about training..."
-                      className="w-full resize-y rounded-xl border border-jaguar-line bg-jaguar-cream/60 px-4 py-3 text-sm text-jaguar-ink outline-none transition placeholder:text-jaguar-ash focus:border-jaguar-red focus:ring-4 focus:ring-jaguar-red/10"
+                      className="w-full resize-y rounded-xl border border-jaguar-line bg-jaguar-cream/60 px-4 py-3 text-sm leading-6 text-jaguar-ink outline-none transition placeholder:text-jaguar-ash focus:border-jaguar-red focus:ring-4 focus:ring-jaguar-red/10"
                     />
                   </div>
 
                   <button
                     type="submit"
                     disabled={status === 'submitting'}
-                    className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-jaguar-red to-jaguar-red-dark px-5 py-3.5 text-sm font-bold uppercase tracking-wider text-white shadow-lg shadow-jaguar-red/20 transition hover:brightness-110 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-jaguar-red disabled:cursor-not-allowed disabled:opacity-70 sm:w-auto sm:min-w-48"
+                    className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-gradient-to-r from-jaguar-red to-jaguar-red-dark px-6 py-4 text-sm font-bold uppercase tracking-wider text-white shadow-lg shadow-jaguar-red/20 transition hover:brightness-110 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-jaguar-red disabled:cursor-not-allowed disabled:opacity-70"
                   >
                     {status === 'submitting' ? (
                       <>
@@ -338,57 +268,7 @@ export default function Contact() {
                       </a>
                     </p>
                   )}
-                </form>
-              )}
-             
-              <div className="mt-6 flex flex-wrap items-center justify-between gap-4 border-t border-jaguar-line pt-5">
-                <a
-                  href={siteConfig.telUrl}
-                  className="group inline-flex items-center gap-2 text-sm font-semibold text-jaguar-ink transition-colors hover:text-jaguar-red"
-                  dir="ltr"
-                >
-                  <Phone size={16} className="text-jaguar-red" />
-                  {siteConfig.phoneIntl}
-                </a>
-                <div className="flex items-center gap-2">
-                  <a
-                    href={`sms:${siteConfig.phoneIntl}`}
-                    aria-label="Send a text message"
-                    title="Text us"
-                    className="flex h-9 w-9 items-center justify-center rounded-full border border-jaguar-line text-jaguar-slate transition-colors hover:border-jaguar-gold hover:text-jaguar-red"
-                  >
-                    <MessageSquareText size={17} />
-                  </a>
-                  <a
-                    href={siteConfig.whatsappUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label="Chat on WhatsApp"
-                    title="WhatsApp"
-                    className="flex h-9 w-9 items-center justify-center rounded-full border border-jaguar-line text-jaguar-slate transition-colors hover:border-jaguar-gold hover:text-jaguar-red"
-                  >
-                    <MessageCircle size={17} />
-                  </a>
-                  <a
-                    href={siteConfig.social.tiktok.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label="Visit TikTok"
-                    title="TikTok"
-                    className="flex h-9 w-9 items-center justify-center rounded-full border border-jaguar-line text-jaguar-slate transition-colors hover:border-jaguar-gold hover:text-jaguar-red"
-                  >
-                    <Music2 size={17} />
-                  </a>
-                  <a
-                    href={siteConfig.social.facebook.url}
-                    aria-label="Visit Facebook"
-                    title="Facebook"
-                    className="flex h-9 w-9 items-center justify-center rounded-full border border-jaguar-line text-jaguar-slate transition-colors hover:border-jaguar-gold hover:text-jaguar-red"
-                  >
-                    <Facebook size={17} />
-                  </a>
-                </div>
-              </div>
+              </form>
             </div>
           </motion.div>
 
@@ -423,9 +303,6 @@ export default function Contact() {
                   <Navigation size={21} />
                 </span>
                 <div className="min-w-0">
-                  <p className="font-display text-[10px] font-bold uppercase tracking-[0.22em] text-jaguar-gold-dark">
-                    Find us in
-                  </p>
                   <h3 className="mt-1 font-display text-xl font-bold uppercase leading-tight text-jaguar-ink sm:text-2xl">
                     {siteConfig.locationLabel}
                   </h3>
